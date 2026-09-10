@@ -34,8 +34,8 @@
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/bricolage-grotesque-latin-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/schibsted-grotesk-latin-400-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/styles.css">
-<script src="assets/simulation.js" defer></script>
+<link rel="stylesheet" href="assets/styles.css?v=20260910-feedback10">
+<script src="assets/simulation.js?v=20260910-feedback10" defer></script>
 </head>
 <body>
 
@@ -117,6 +117,11 @@
           <span class="simulation-notice-detail">This two-step process prevents a lower threshold from bypassing Ethereum’s churn limit.</span>
         </div>
       </div>
+      <div class="slashing-notice" id="slashingNotice" role="status" hidden>
+        <span class="slashing-stamp" aria-hidden="true">Slashed</span>
+        <strong>Your validator was slashed</strong>
+        <p>Double signing, browser edition: one validator, two tabs.</p>
+      </div>
       <figcaption class="visually-hidden" id="simulation-help">Interactive diagram of a custom validator sweep threshold. As the pointer moves, the red line and label show a new threshold while the pale line marks the current value. Click to set it, or focus the diagram and use the arrow keys. If the selected threshold is below the balance, the diagram first makes a partial withdrawal and then applies the new threshold. Rewards stay in the validator below the threshold and move to the withdrawal address above it.</figcaption>
     </figure>
   </div>
@@ -149,7 +154,7 @@
             <div class="meta">Dima Gusakov · Jul 2026 · 64 min</div>
           </div>
         </a>
-        <div class="src source-tight">Prefer slides? <a href="https://pitch.com/v/eip-8148-ethstaker-cc-njxpbz">Open the EthStaker deck ↗</a></div>
+        <a class="presentation-slides" href="https://pitch.com/v/eip-8148-ethstaker-cc-njxpbz">Presentation slides <span aria-hidden="true">↗</span><span class="visually-hidden"> — EthStaker Community Call #69</span></a>
       </div>
       <div class="vwrap">
         <a class="card vcard" href="https://www.youtube.com/watch?v=6rx9Vo7QcJg&amp;t=2071s">
@@ -162,71 +167,150 @@
             <div class="meta">EIP-8148 from 34:31 · May 2026</div>
           </div>
         </a>
-        <div class="src source-tight">Prefer slides? <a href="https://pitch.com/v/eip-8148-acdc-z4w5ev">Open the ACDC deck ↗</a></div>
+        <a class="presentation-slides" href="https://pitch.com/v/eip-8148-acdc-z4w5ev">Presentation slides <span aria-hidden="true">↗</span><span class="visually-hidden"> — All Core Devs Consensus #179</span></a>
       </div>
     </div>
   </div>
 </section>
 
-<section class="story alt" id="problem">
-  <div class="wrap">
-    <div class="row section-intro">
-      <div class="sechead section-intro-copy">
+<section class="story" id="problem">
+  <div class="problem-dark">
+    <div class="wrap">
+      <div class="sechead problem-intro">
         <div class="eyebrow">The problem</div>
-        <h2>Compounding makes rewards harder to access</h2>
-        <p class="dek">Stakers use rewards for operating costs or as income. They may also want those rewards to increase their stake. Today, Ethereum gives them two fixed options.</p>
+        <h2>Reward withdrawals <span class="problem-emphasis">are too rigid</span></h2>
+        <p class="dek">Ethereum gives stakers two fixed options: receive rewards above 32 ETH, or let them compound up to 2,048 ETH.</p>
       </div>
-      <figure class="problem-figure" aria-label="Automatic withdrawal thresholds: 2,048 ETH for 0x02 and 32 ETH for 0x01">
-        <svg viewBox="0 0 420 300" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M20 282 C 130 279, 290 284, 404 280" stroke="#E4E4DE" stroke-width="2" stroke-linecap="round" fill="none"/>
-          <path d="M130 40 C 165 37, 200 41, 234 38 C 236 120, 234 202, 235 278 C 200 281, 165 279, 131 280 C 129 200, 131 120, 130 40 Z" fill="#B2F2BB" fill-opacity="0.8" stroke="#1E1E1E" stroke-width="2.2" stroke-linejoin="round"/>
-          <text x="182" y="26" text-anchor="middle" font-family="Shantell Sans, cursive" font-weight="500" font-size="16" fill="#1E1E1E">0x02 — 2,048 ETH</text>
-          <path d="M300 250 C 322 248, 344 250, 364 248 C 366 260, 364 271, 365 278 C 344 280, 322 279, 301 280 C 299 269, 301 259, 300 250 Z" fill="#A5D8FF" fill-opacity="0.8" stroke="#1E1E1E" stroke-width="2.2" stroke-linejoin="round"/>
-          <text x="332" y="236" text-anchor="middle" font-family="Shantell Sans, cursive" font-weight="500" font-size="16" fill="#1E1E1E">0x01 — 32 ETH</text>
-        </svg>
-      </figure>
+      <div class="problem-options">
+        <article class="problem-option">
+          <div class="option-heading">
+            <p class="option-kind">0x01</p>
+            <p class="option-amount">32 <small>ETH</small></p>
+            <h3>Rewards arrive automatically</h3>
+          </div>
+          <figure class="option-art" aria-label="A 0x01 validator keeps 32 ETH staked and sends rewards above it to the withdrawal address.">
+            <svg viewBox="0 0 360 210" fill="none" stroke="#C7E4FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M38 85L130 84L131 173L37 174Z" fill="#426D99" stroke="none"/>
+              <path d="M39 27C37 75,40 126,37 174C68 172,99 176,131 173C129 126,133 75,130 26"/>
+              <path d="M18 85C61 82,108 88,152 84" stroke="#FFB5B3" stroke-dasharray="9 7"/>
+              <path d="M119 64C171 16,218 34,264 99M248 93L266 101L263 82" stroke="#E0D8FF" stroke-dasharray="4 7"/>
+              <ellipse cx="153" cy="48" rx="10" ry="9" fill="#FFD972" stroke="#FFF0B8"/>
+              <ellipse cx="220" cy="53" rx="10" ry="9" fill="#FFD972" stroke="#FFF0B8"/>
+              <path d="M237 110C268 108,302 111,332 109L333 170C302 173,267 169,236 172Z" fill="#7660BC" stroke="#E0D8FF"/>
+              <path d="M237 130L332 129" stroke="#E0D8FF"/>
+              <circle cx="315" cy="151" r="5" fill="#E0D8FF" stroke="#E0D8FF"/>
+              <text x="284" y="200" text-anchor="middle" fill="#E0D8FF" stroke="none">withdrawal address</text>
+            </svg>
+          </figure>
+          <div class="option-copy">
+            <p>A 0x01 validator keeps 32 ETH staked. Ethereum sends rewards above 32 ETH to its withdrawal address: the account that receives ETH from the validator.</p>
+            <p>Those rewards do not increase the stake. To stake them with 0x01 validators, you must collect another 32 ETH for a new validator.</p>
+          </div>
+        </article>
+        <article class="problem-option">
+          <div class="option-heading">
+            <p class="option-kind">0x02 · Up to</p>
+            <p class="option-amount">2,048 <small>ETH</small></p>
+            <h3>Rewards increase the stake</h3>
+          </div>
+          <figure class="option-art" aria-label="A 0x02 validator compounds rewards below 2,048 ETH. Automatic withdrawals start above that threshold.">
+            <svg viewBox="0 0 360 210" fill="none" stroke="#C8F3D5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M38 96L130 95L131 173L37 174Z" fill="#38745A" stroke="none"/>
+              <path d="M39 27C37 75,40 126,37 174C68 172,99 176,131 173C129 126,133 75,130 26"/>
+              <path d="M18 42C61 39,108 45,152 41" stroke="#FFB5B3" stroke-dasharray="9 7"/>
+              <ellipse cx="84" cy="70" rx="10" ry="9" fill="#FFD972" stroke="#FFF0B8"/>
+              <path d="M273 108C219 94,182 111,144 139M160 124L142 141L164 139" stroke="#E0D8FF"/>
+              <text x="244" y="64" text-anchor="middle" fill="#E0D8FF" stroke="none">rewards stay</text>
+              <text x="244" y="85" text-anchor="middle" fill="#E0D8FF" stroke="none">and compound</text>
+            </svg>
+          </figure>
+          <div class="option-copy">
+            <p>A 0x02 validator keeps its rewards. They increase its stake, so Ethereum calculates more rewards. This is compounding.</p>
+            <p>Automatic withdrawals start above 2,048 ETH. Below that level, you must send a partial withdrawal request to use your rewards.</p>
+          </div>
+        </article>
+      </div>
+      <div class="manual-withdrawal">
+        <div class="manual-summary">
+          <h3>Manual withdrawals add work and delay</h3>
+          <p>Each partial withdrawal starts with a request from the withdrawal address. The transaction has a gas cost and a request fee. The exit queue can add a delay before the rewards become available.</p>
+        </div>
+        <ol class="manual-path" aria-label="Partial withdrawal steps">
+          <li>Request</li>
+          <li>Gas + request fee</li>
+          <li>Exit queue</li>
+        </ol>
+      </div>
+      <p class="context-source problem-source"><a href="https://eips.ethereum.org/EIPS/eip-8148#motivation">Read the EIP motivation <span aria-hidden="true">↗</span></a></p>
     </div>
-    <div class="row problem-options">
-      <div class="card tint-blue">
-        <div class="tag tag-blue">0x01 · 32 ETH</div>
-        <h3>Rewards arrive automatically</h3>
-        <p>A 0x01 validator keeps 32 ETH staked. Ethereum sends rewards above 32 ETH to its withdrawal address: the account that receives ETH from the validator.</p>
-        <p>Those rewards do not increase the stake. To stake them with 0x01 validators, you must collect another 32 ETH for a new validator.</p>
-      </div>
-      <div class="card tint-red">
-        <div class="tag tag-orange">0x02 · Up to 2,048 ETH</div>
-        <h3>Rewards increase the stake</h3>
-        <p>A 0x02 validator keeps its rewards. They increase its stake, so Ethereum calculates more rewards. This is compounding.</p>
-        <p>Automatic withdrawals start above 2,048 ETH. Below that level, you must send a partial withdrawal request to use your rewards.</p>
-      </div>
-    </div>
+  </div>
+  <div class="problem-context">
+  <div class="wrap">
     <div class="narrative problem-impact">
-      <h3>Manual withdrawals add work and delay</h3>
-      <p>Each partial withdrawal starts with a request from the withdrawal address. The transaction has a gas cost and a request fee. The exit queue can add a delay before the rewards become available.</p>
       <h3 id="audience">Who needs automatic rewards?</h3>
+      <p class="audience-intro">Stakers use rewards for operating costs or as income. They may also want those rewards to increase their stake.</p>
       <dl class="audience-list">
         <div>
-          <dt>Solo stakers</dt>
+          <dt>
+            <svg class="audience-art" viewBox="0 0 140 108" fill="none" aria-hidden="true">
+              <path d="M48 40L110 39L111 97L47 98Z" fill="#B2F2BB"/>
+              <path d="M48 17C46 44,49 72,47 98C68 96,91 99,111 97C109 70,113 43,110 16" stroke="#1E1E1E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M34 40C61 38,99 43,124 39" stroke="#E03131" stroke-width="2.2" stroke-dasharray="8 6" stroke-linecap="round"/>
+              <ellipse cx="20" cy="23" rx="11" ry="10" fill="#FFEC99" stroke="#1E1E1E" stroke-width="2.2"/>
+              <path d="M20 40C20 61,24 71,38 72M30 65L39 72L29 79" stroke="#1E1E1E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Solo stakers</span>
+          </dt>
           <dd><p>Solo stakers run validators with their own ETH. Rewards can cover hardware, electricity, or other expenses.</p></dd>
         </div>
         <div>
-          <dt>Non-custodial staking clients</dt>
+          <dt>
+            <svg class="audience-art" viewBox="0 0 140 108" fill="none" aria-hidden="true">
+              <g fill="#A5D8FF" stroke="#1E1E1E" stroke-width="2.2" stroke-linejoin="round">
+                <path d="M8 15L34 14L35 40L9 41Z"/>
+                <path d="M8 68L35 67L34 94L9 93Z"/>
+              </g>
+              <path d="M102 15L130 14L129 41L101 40ZM102 68L129 67L130 94L101 93Z" fill="#D0BFFF" stroke="#1E1E1E" stroke-width="2.2" stroke-linejoin="round"/>
+              <g stroke="#6965DB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M46 28C60 26,77 30,91 27M84 20L93 27L84 34"/>
+                <path d="M46 81C60 79,77 83,91 80M84 73L93 80L84 87"/>
+              </g>
+            </svg>
+            <span>Non-custodial staking clients</span>
+          </dt>
           <dd>
             <p>A service runs the validator, but the client controls its withdrawal address. This is a non-custodial staking service.</p>
             <p>Even a large operator can serve many clients with less than 2,048 ETH each. It cannot send withdrawal requests for them. Each client must send their own requests.</p>
+            <div class="context-links">
+              <a href="https://ethereum.org/staking/saas/#non-custodial-staking-as-a-service">How non-custodial staking services work <span aria-hidden="true">↗</span></a>
+              <a href="https://www.youtube.com/watch?v=j7j3Yi7HWms&amp;t=2211s">EthStaker discussion of client balances <span aria-hidden="true">↗</span></a>
+            </div>
           </dd>
         </div>
         <div>
-          <dt>Operators in staking pools</dt>
+          <dt>
+            <svg class="audience-art" viewBox="0 0 140 108" fill="none" aria-hidden="true">
+              <path d="M73 32L128 31L129 76L72 77Z" fill="#D0BFFF"/>
+              <path d="M72 77L129 76L130 98L73 99Z" fill="#FFEC99"/>
+              <path d="M74 13C72 42,75 72,73 99C91 97,110 100,130 98C128 70,132 42,129 12" stroke="#1E1E1E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M60 32C81 30,114 34,138 31" stroke="#E03131" stroke-width="2.2" stroke-dasharray="8 6" stroke-linecap="round"/>
+              <ellipse cx="17" cy="85" rx="11" ry="10" fill="#FFEC99" stroke="#1E1E1E" stroke-width="2.2"/>
+              <path d="M34 85L62 86M53 78L63 86L53 93" stroke="#1E1E1E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Operators in staking pools</span>
+          </dt>
           <dd><p>In some pools, operators supply a bond: ETH that can cover penalties. The pool supplies the rest of the stake. A full 2,048 ETH validator can require more bond than a home staker can supply.</p></dd>
         </div>
       </dl>
-      <h3>The need for automatic rewards can prevent consolidation</h3>
+    </div>
+    <div class="problem-evidence">
+      <h3>A barrier to consolidation</h3>
       <p>Stakers who need automatic rewards can keep separate 32 ETH validators. Consolidation into fewer 0x02 validators would replace those withdrawals with manual requests below 2,048 ETH.</p>
       <p>P2P.org reports that some clients keep separate 32 ETH validators to receive automatic rewards. EIP-8148 would let these clients consolidate and keep automatic withdrawals at a threshold they set.</p>
+      <p class="context-source"><a href="https://www.youtube.com/watch?v=6rx9Vo7QcJg&amp;t=3057s">Hear P2P.org explain the withdrawal barrier <span aria-hidden="true">↗</span></a></p>
     </div>
     <p class="fine">This proposal changes withdrawals from the validator balance. It does not change transaction fee or MEV payments from the execution layer.</p>
-    <p class="src source-note">Read how <a href="https://ethereum.org/staking/saas/#non-custodial-staking-as-a-service">non-custodial staking services</a> work. Hear <a href="https://www.youtube.com/watch?v=6rx9Vo7QcJg&amp;t=3057s">P2P.org explain the withdrawal barrier</a> and the <a href="https://www.youtube.com/watch?v=j7j3Yi7HWms&amp;t=2211s">EthStaker discussion of client balances</a>. The <a href="https://eips.ethereum.org/EIPS/eip-8148#motivation">EIP motivation</a> explains why automatic sweeps matter.</p>
+  </div>
   </div>
 </section>
 
@@ -235,7 +319,7 @@
     <div class="row section-intro">
       <div class="sechead section-intro-copy">
         <div class="eyebrow">The solution</div>
-        <h2>Compounding with a threshold you set</h2>
+        <h2>Compounding with a <span class="solution-emphasis">threshold you set</span></h2>
         <p class="dek">EIP-8148 lets each 0x02 validator use its own sweep threshold. This is the balance above which Ethereum sends automatic withdrawals.</p>
       </div>
       <figure class="solution-figure" aria-label="Diagram: a validator with a custom threshold line across it">
@@ -252,14 +336,47 @@
 
     <div class="narrative solution-flow">
       <div class="topic">
-        <h3><span class="topic-num" aria-hidden="true">01</span> How rewards move</h3>
+        <div class="topic-visual">
+          <h3><span class="topic-num" aria-hidden="true">01</span> How rewards move</h3>
+          <figure class="step-art" data-story-motion="rewards" aria-label="Rewards below the threshold compound; the excess goes to the withdrawal address.">
+            <svg viewBox="0 0 320 200" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M38 76L126 75L127 158L37 159Z" fill="#B2F2BB"/>
+              <path d="M39 30C37 72,40 116,37 159C66 157,98 161,127 158C125 116,129 73,126 28" stroke="#1E1E1E"/>
+              <path d="M20 76C56 74,109 79,146 75" stroke="#E03131" stroke-dasharray="8 6"/>
+              <path d="M116 61C161 21,199 36,239 83M224 79L241 85L239 68" stroke="#6965DB" stroke-dasharray="4 6"/>
+              <path d="M207 91L292 90L293 143L206 144Z" fill="#D0BFFF" stroke="#1E1E1E"/>
+              <path d="M207 108L292 107" stroke="#1E1E1E"/>
+              <circle cx="277" cy="126" r="4" fill="#FDFDFC" stroke="#1E1E1E"/>
+              <g class="step-sweep-coin"><circle r="9" fill="#FFEC99" stroke="#1E1E1E"/></g>
+              <text x="82" y="183" text-anchor="middle" fill="#17692C">compounds</text>
+              <text x="250" y="170" text-anchor="middle" fill="#514DC9">withdraws</text>
+            </svg>
+          </figure>
+        </div>
+        <div class="topic-copy">
         <p>Below the threshold, rewards stay in the validator and increase its stake. Above it, Ethereum sends the excess balance to the withdrawal address through the <a href="https://github.com/ethereum/consensus-specs/blob/master/specs/_features/eip8148/beacon-chain.md#modified-get_validators_sweep_withdrawals">automatic withdrawal sweep</a>.</p>
         <p>The sweep sends the excess in each cycle. You receive it automatically, without a transaction or fee.</p>
         <p>Ethereum uses the effective balance to calculate rewards and voting weight. It <a href="https://github.com/ethereum/consensus-specs/blob/master/specs/_features/eip8148/beacon-chain.md#modified-process_effective_balance_updates">updates in steps and is capped by the threshold</a>. It must be at or above the threshold before automatic withdrawals start.</p>
+        </div>
       </div>
 
       <div class="topic">
-        <h3><span class="topic-num" aria-hidden="true">02</span> Set the threshold</h3>
+        <div class="topic-visual">
+          <h3><span class="topic-num" aria-hidden="true">02</span> Set the threshold</h3>
+          <figure class="step-art" data-story-motion="threshold" aria-label="Choose a sweep threshold between 32 and 2,048 ETH, in steps of 1 ETH.">
+            <svg viewBox="0 0 320 200" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M88 134L190 133L191 163L87 164Z" fill="#B2F2BB"/>
+              <path d="M89 25C87 68,90 119,87 164C122 162,156 166,191 163C189 118,193 67,190 24" stroke="#1E1E1E"/>
+              <path d="M233 28L234 148M228 28L240 28M228 58L240 58M228 88L240 88M228 118L240 118M228 148L240 148" stroke="#ABA8C6"/>
+              <g class="step-threshold-line">
+                <path d="M65 73C110 71,173 76,218 72" stroke="#E03131" stroke-dasharray="8 6"/>
+                <circle cx="234" cy="73" r="9" fill="#FFC9C9" stroke="#C92A2A"/>
+              </g>
+              <text x="160" y="190" text-anchor="middle" fill="#514DC9">32–2,048 ETH · 1 ETH steps</text>
+            </svg>
+          </figure>
+        </div>
+        <div class="topic-copy">
         <p>Select a value from 32 to 2,048 ETH, in steps of 1 ETH. There are two ways to set it.</p>
         <dl class="setup-options">
           <div><dt>For a new validator</dt><dd>The initial deposit can include the threshold in the 0x02 withdrawal credentials. Deposit software encodes this value.</dd></div>
@@ -267,31 +384,91 @@
         </dl>
         <p>Only the withdrawal address can change the threshold. This keeps control with the staker, including when someone else operates the validator.</p>
         <p>The <a href="https://eips.ethereum.org/EIPS/eip-8148#only-allowing-threshold-to-be-set-above-current-balance">new threshold must be at or above the validator balance</a> when the network processes the request.</p>
+        </div>
       </div>
 
-      <div class="topic">
-        <h3><span class="topic-num" aria-hidden="true">03</span> Example: keep 128 ETH staked</h3>
-        <p>You deposit 128 ETH into a new 0x02 validator with a 128 ETH sweep threshold. The validator keeps 128 ETH staked. The sweep sends the rewards to your withdrawal address.</p>
-        <div class="card tint-green threshold-example">
-          <p>For a balance of 128.2 ETH, the next sweep works as follows:</p>
+      <div class="topic topic-example">
+        <div class="topic-visual">
+          <h3><span class="topic-num" aria-hidden="true">03</span> Keep the stake you choose</h3>
+          <figure class="step-art" data-story-motion="example" aria-label="The validator keeps the chosen stake and automatically withdraws rewards above the threshold.">
+            <svg viewBox="0 0 320 200" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M30 79L133 78L134 157L29 158Z" fill="#B2F2BB"/>
+              <path class="step-excess" d="M30 64L133 63L133 78L30 79Z" fill="#FFEC99"/>
+              <path d="M31 29C29 74,32 115,29 158C62 157,100 160,134 157C132 115,136 73,133 28" stroke="#1E1E1E"/>
+              <path d="M14 79C60 77,109 82,153 78" stroke="#E03131" stroke-dasharray="8 6"/>
+              <path d="M116 61C161 21,199 36,239 83M224 79L241 85L239 68" stroke="#6965DB" stroke-dasharray="4 6"/>
+              <path d="M207 91L292 90L293 143L206 144Z" fill="#D0BFFF" stroke="#1E1E1E"/>
+              <path d="M207 108L292 107" stroke="#1E1E1E"/>
+              <circle cx="277" cy="126" r="4" fill="#FDFDFC" stroke="#1E1E1E"/>
+              <g class="step-sweep-coin"><circle r="9" fill="#FFEC99" stroke="#1E1E1E"/></g>
+              <text x="81" y="183" text-anchor="middle" fill="#17692C">stays staked</text>
+              <text x="250" y="170" text-anchor="middle" fill="#514DC9">withdraws</text>
+            </svg>
+          </figure>
+        </div>
+        <div class="topic-copy">
+        <p>Set the threshold to the amount you want to keep staked. The sweep sends rewards above that threshold to your withdrawal address.</p>
+        <p>The sweep sends further rewards in later cycles. The interval between withdrawals depends on the sweep cycle.</p>
+        <div class="threshold-example">
+          <h4>For example</h4>
+          <p>You deposit 128 ETH into a new 0x02 validator with a 128 ETH sweep threshold. The validator keeps 128 ETH staked. The sweep sends the rewards to your withdrawal address.</p>
+          <p>For a balance of <strong>128.2 ETH</strong>, the next sweep works as follows:</p>
           <dl>
-            <div><dt>Stays in the validator</dt><dd>128 ETH</dd></div>
-            <div><dt>Goes to the withdrawal address</dt><dd>0.2 ETH</dd></div>
+            <div><dt>Stays in the validator</dt><dd>128 <span>ETH</span></dd></div>
+            <div><dt>Goes to the withdrawal address</dt><dd>0.2 <span>ETH</span></dd></div>
           </dl>
-          <p>The sweep sends further rewards in later cycles. The interval between withdrawals depends on the sweep cycle.</p>
+        </div>
         </div>
       </div>
 
       <div class="topic">
-        <h3><span class="topic-num" aria-hidden="true">04</span> Adjust the stake later</h3>
+        <div class="topic-visual">
+          <h3><span class="topic-num" aria-hidden="true">04</span> Adjust the stake later</h3>
+          <figure class="step-art" data-story-motion="adjust" aria-label="Raise the threshold and wait for acceptance before adding ETH.">
+            <svg viewBox="0 0 320 200" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <g class="step-adjust-scene">
+              <path class="step-adjust-fill" d="M106 85L215 84L216 159L105 160Z" fill="#B2F2BB"/>
+              <path d="M107 21C105 67,108 118,105 160C141 158,180 162,216 159C214 117,218 67,215 20" stroke="#1E1E1E"/>
+              <path class="step-adjust-line" d="M86 60C126 58,194 63,238 59" stroke="#E03131" stroke-dasharray="8 6"/>
+              <g class="step-deposit">
+                <circle cx="38" cy="73" r="13" fill="#FFEC99" stroke="#1E1E1E"/>
+                <text x="38" y="78" text-anchor="middle" fill="#1E1E1E">+</text>
+              </g>
+              </g>
+              <text x="160" y="186" text-anchor="middle" fill="#514DC9">Threshold first. Then add ETH.</text>
+            </svg>
+          </figure>
+        </div>
+        <div class="topic-copy">
         <p>Before you add stake, make sure the threshold is high enough. If you increase it, wait for the network to accept the change. Then add ETH or transfer stake from another validator through consolidation. The sweep uses the total balance, so it can also withdraw deposits above the threshold.</p>
         <p>To set a threshold below the current balance, first make a partial withdrawal. After it completes, set the new threshold. This preserves the normal withdrawal queue.</p>
         <p><a href="#confirm-threshold">How to confirm a threshold change</a></p>
+        </div>
       </div>
 
       <div class="topic">
-        <h3><span class="topic-num" aria-hidden="true">05</span> The default stays at 2,048 ETH</h3>
-        <p>Custom thresholds are optional. At activation, registered 0x02 validators keep the 2,048 ETH default. Validators with 0x00 or 0x01 credentials keep their current withdrawal rules.</p>
+        <div class="topic-visual">
+          <h3><span class="topic-num" aria-hidden="true">05</span> The default stays at 2,048 ETH</h3>
+          <figure class="step-art" data-story-motion="default" aria-label="The default sweep keeps 2,048 ETH staked and automatically withdraws rewards above it; custom thresholds are optional.">
+            <svg viewBox="0 0 320 200" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M16 60L158 59L160 174L14 175Z" fill="#B2F2BB"/>
+              <path class="step-excess" d="M16 45L158 44L158 59L16 60Z" fill="#FFEC99"/>
+              <path d="M17 13C15 64,18 121,14 175C60 173,112 177,160 174C158 120,162 63,158 12" stroke="#1E1E1E"/>
+              <path d="M3 60C54 58,128 63,176 59" stroke="#E03131" stroke-dasharray="8 6"/>
+              <path d="M145 42C180 7,221 32,243 83M230 79L245 85L244 70" stroke="#6965DB" stroke-dasharray="4 6"/>
+              <path d="M207 91L292 90L293 143L206 144Z" fill="#D0BFFF" stroke="#1E1E1E"/>
+              <path d="M207 108L292 107" stroke="#1E1E1E"/>
+              <circle cx="277" cy="126" r="4" fill="#FDFDFC" stroke="#1E1E1E"/>
+              <g class="step-sweep-coin"><circle r="9" fill="#FFEC99" stroke="#1E1E1E"/></g>
+              <text x="86" y="197" text-anchor="middle" fill="#17692C">2,048 ETH staked</text>
+              <text x="250" y="170" text-anchor="middle" fill="#514DC9">withdraws</text>
+            </svg>
+          </figure>
+        </div>
+        <div class="topic-copy">
+        <p>Custom thresholds are optional. At activation, registered 0x02 validators keep the 2,048 ETH default. Rewards still compound below it, and the sweep automatically withdraws the excess above it.</p>
+        <p>The change is backward compatible for stakers. If you do nothing, validators with 0x00, 0x01, or 0x02 credentials keep their existing withdrawal behavior.</p>
+        </div>
       </div>
     </div>
     <p class="src source-note-wide">For protocol details, start with the <a href="https://eips.ethereum.org/EIPS/eip-8148#specification">EIP specification</a>, then see how clients <a href="https://github.com/ethereum/consensus-specs/blob/master/specs/_features/eip8148/beacon-chain.md#new-process_set_sweep_threshold_request">validate a threshold change</a>, <a href="https://github.com/ethereum/consensus-specs/blob/master/specs/_features/eip8148/beacon-chain.md#modified-get_validators_sweep_withdrawals">calculate sweep withdrawals</a>, and <a href="https://github.com/ethereum/consensus-specs/blob/master/specs/_features/eip8148/beacon-chain.md#modified-process_effective_balance_updates">update effective balance</a>.</p>
@@ -307,45 +484,50 @@
     </div>
     <div class="narrative network-flow">
       <h3>Fewer validators for the same stake</h3>
-      <figure class="card consolidation">
-        <div class="consolidation-flow">
-          <div class="consolidation-stage">
+      <figure class="consolidation" id="consolidation">
+        <div class="consolidation-art">
+        <svg class="consolidation-paper" viewBox="0 0 860 500" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M23 9C220 3,594 11,835 6Q854 5,853 25C847 170,858 334,851 476Q851 493,831 491C612 485,229 498,24 490Q6 491,8 472C13 327,3 171,9 27Q8 9,23 9Z" fill="#FFFFFF" stroke="#9186B2" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
+        </svg>
+        <p class="consolidation-total">256 ETH, either way</p>
+        <div class="consolidation-readout" aria-live="polite" aria-atomic="true">
+          <div class="consolidation-stage" data-merge-state="scattered">
             <p class="consolidation-label">Today · 0x01</p>
-            <p class="consolidation-amount">8 × 32 ETH</p>
-            <svg viewBox="0 0 280 144" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs><path id="consolidation-validator" d="M2 3 C 17 1, 34 4, 48 2 C 50 18, 47 35, 49 48 C 33 50, 16 47, 2 49 C 0 34, 3 18, 2 3 Z"/></defs>
-              <g fill="#A5D8FF" fill-opacity="0.8" stroke="#1E1E1E" stroke-width="2.2" stroke-linejoin="round">
-                <use href="#consolidation-validator" x="24" y="10"/>
-                <use href="#consolidation-validator" x="84" y="10"/>
-                <use href="#consolidation-validator" x="144" y="10"/>
-                <use href="#consolidation-validator" x="204" y="10"/>
-                <use href="#consolidation-validator" x="24" y="82"/>
-                <use href="#consolidation-validator" x="84" y="82"/>
-                <use href="#consolidation-validator" x="144" y="82"/>
-                <use href="#consolidation-validator" x="204" y="82"/>
-              </g>
-            </svg>
+            <p class="consolidation-amount">8 <span>×</span> 32 <small>ETH</small></p>
             <p class="consolidation-threshold">32 ETH threshold per validator</p>
           </div>
-          <div class="consolidation-arrow" aria-hidden="true">
-            <svg viewBox="0 0 64 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 16 C 20 14, 39 18, 59 15 M46 4 L 60 15 L 47 28" stroke="#1E1E1E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div class="consolidation-stage">
+          <div class="consolidation-stage" data-merge-state="merged">
             <p class="consolidation-label">With EIP-8148 · 0x02</p>
-            <p class="consolidation-amount">1 × 256 ETH</p>
-            <svg viewBox="0 0 280 144" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M40 34 C 105 31, 177 36, 240 33 L 241 131 C 176 133, 104 130, 39 132 Z" fill="#B2F2BB" fill-opacity="0.8"/>
-              <path d="M41 10 C 39 49, 42 94, 39 132 C 104 130, 176 134, 241 131 C 239 91, 242 47, 239 9" stroke="#1E1E1E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M15 34 C 92 31, 192 37, 265 33" stroke="#E03131" stroke-width="2.4" stroke-dasharray="10 7" stroke-linecap="round"/>
-            </svg>
+            <p class="consolidation-amount">1 <span>×</span> 256 <small>ETH</small></p>
             <p class="consolidation-threshold">256 ETH custom threshold</p>
           </div>
         </div>
+        <button class="consolidation-canvas" type="button" aria-label="Scatter the validator illustration" disabled>
+          <svg class="consolidation-diagram" viewBox="0 0 860 370" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g class="merge-assembly">
+              <g fill="#A5D8FF" stroke="#1E1E1E" stroke-width="2.2" stroke-linejoin="round">
+              <g class="merge-tile" transform="translate(222 110)"><path d="M2 3C23 1,53 4,78 2C80 23,77 55,79 78C54 80,27 77,2 79C0 55,3 26,2 3Z"/></g>
+              <g class="merge-tile" transform="translate(334 110)"><path d="M2 3C23 1,53 4,78 2C80 23,77 55,79 78C54 80,27 77,2 79C0 55,3 26,2 3Z"/></g>
+              <g class="merge-tile" transform="translate(446 110)"><path d="M2 3C23 1,53 4,78 2C80 23,77 55,79 78C54 80,27 77,2 79C0 55,3 26,2 3Z"/></g>
+              <g class="merge-tile" transform="translate(558 110)"><path d="M2 3C23 1,53 4,78 2C80 23,77 55,79 78C54 80,27 77,2 79C0 55,3 26,2 3Z"/></g>
+              <g class="merge-tile" transform="translate(222 222)"><path d="M2 3C23 1,53 4,78 2C80 23,77 55,79 78C54 80,27 77,2 79C0 55,3 26,2 3Z"/></g>
+              <g class="merge-tile" transform="translate(334 222)"><path d="M2 3C23 1,53 4,78 2C80 23,77 55,79 78C54 80,27 77,2 79C0 55,3 26,2 3Z"/></g>
+              <g class="merge-tile" transform="translate(446 222)"><path d="M2 3C23 1,53 4,78 2C80 23,77 55,79 78C54 80,27 77,2 79C0 55,3 26,2 3Z"/></g>
+              <g class="merge-tile" transform="translate(558 222)"><path d="M2 3C23 1,53 4,78 2C80 23,77 55,79 78C54 80,27 77,2 79C0 55,3 26,2 3Z"/></g>
+              </g>
+              <g class="merge-frame" opacity="0">
+                <path d="M271 82C269 149,272 218,270 286C375 284,486 288,590 286C588 217,592 149,589 81" stroke="#1E1E1E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M249 126C355 123,503 129,611 125" stroke="#E03131" stroke-width="2.4" stroke-dasharray="13 9" stroke-linecap="round"/>
+              </g>
+            </g>
+          </svg>
+        </button>
+        </div>
         <figcaption>The same 256 ETH stays staked. The sweep sends rewards automatically in both cases.</figcaption>
       </figure>
-      <p>Fewer validators send fewer votes for the network to process. Proposals for faster finality use a smaller validator set.</p>
-      <h3>Smaller validators for staking pools</h3>
-      <p>Custom thresholds let pools design smaller 0x02 validators with automatic reward withdrawals. Each pool sets its own bond requirements.</p>
+      <div class="network-impact">
+        <p>Custom thresholds let more stakers consolidate, so fewer validators send votes for the network to process. Proposals for faster finality also use a smaller validator set. The same flexibility lets staking pools design smaller 0x02 validators with automatic reward withdrawals. Each pool sets its own bond requirements.</p>
+      </div>
     </div>
     <p class="src source-note-wide">For operator context, read about <a href="https://eips.ethereum.org/EIPS/eip-7251#motivation">validator consolidation</a>, then watch the discussions about <a href="https://www.youtube.com/watch?v=j7j3Yi7HWms&amp;t=2046s">smaller staking setups</a> and <a href="https://www.youtube.com/watch?v=I1CIZdPPyxQ&amp;t=425s">operator bond requirements</a>.</p>
   </div>
@@ -360,7 +542,7 @@
     </div>
     <div class="impl">
       <div class="card">
-        <h3>Execution layer</h3>
+        <h3><span class="layer-code" aria-hidden="true">EL</span>Execution layer</h3>
         <div class="impl-existing">
           <h4>Already in use</h4>
           <p><a href="https://eips.ethereum.org/EIPS/eip-7002">EIP-7002</a> defines the queue and fee model. <a href="https://eips.ethereum.org/EIPS/eip-7685">EIP-7685</a> defines how execution clients send requests to consensus clients.</p>
@@ -373,8 +555,12 @@
           </ul>
         </div>
       </div>
+      <div class="impl-bridge" aria-hidden="true">
+        <span>Threshold request</span>
+        <svg viewBox="0 0 80 32" fill="none"><path d="M3 16C23 14,51 18,75 15M63 4L77 15L64 28" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
       <div class="card">
-        <h3>Consensus layer</h3>
+        <h3><span class="layer-code" aria-hidden="true">CL</span>Consensus layer</h3>
         <div class="impl-existing">
           <h4>Already in use</h4>
           <p>Clients already run the withdrawal sweep and update effective balances.</p>
@@ -490,7 +676,7 @@
   <div class="wrap">
     <div class="sechead">
       <div class="eyebrow">Support the proposal</div>
-      <h2>Support EIP-8148 for Hegotá</h2>
+      <h2>Support <span>EIP-8148</span> for Hegotá</h2>
       <p class="dek">Help client teams review the proposal for Hegotá. Rank it, describe how your validators would use it, or comment on the specification.</p>
     </div>
     <div class="row">
