@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="color-scheme" content="light">
+<title>EIP-8148 — Custom sweep threshold for validators</title>
+<meta name="description" content="EIP-8148 lets stakers set a custom sweep threshold for each compounding validator. Keep the stake you want and receive rewards above it automatically.">
+<link rel="canonical" href="https://eip8148.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="EIP-8148">
+<meta property="og:url" content="https://eip8148.com/">
+<meta property="og:title" content="EIP-8148 — Custom sweep threshold for validators">
+<meta property="og:description" content="EIP-8148 lets stakers set a custom sweep threshold for each compounding validator. Keep the stake you want and receive rewards above it automatically.">
+<meta property="og:image" content="https://eip8148.com/assets/og.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="EIP-8148 diagram: stake below a custom threshold; automatic withdrawals above the threshold">
+<meta property="og:image" content="https://eip8148.com/assets/og-square.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1080">
+<meta property="og:image:height" content="1080">
+<meta property="og:image:alt" content="EIP-8148 diagram: stake below a custom threshold; automatic withdrawals above the threshold">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="EIP-8148 — Custom sweep threshold for validators">
+<meta name="twitter:description" content="EIP-8148 lets stakers set a custom sweep threshold for each compounding validator. Keep the stake you want and receive rewards above it automatically.">
+<meta name="twitter:image" content="https://eip8148.com/assets/og.png">
+<meta name="twitter:image:alt" content="EIP-8148 diagram: stake below a custom threshold; automatic withdrawals above the threshold">
+<meta name="theme-color" content="#FDFDFC">
+<link rel="icon" href="assets/favicon.svg" sizes="any" type="image/svg+xml">
+<link rel="alternate icon" href="assets/favicon.ico">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/bricolage-grotesque-latin-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/schibsted-grotesk-latin-400-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/styles.css">
+<script src="assets/simulation.js" defer></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+<nav class="top" aria-label="Primary navigation">
+  <div class="wrap">
+    <a class="brand" href="#top">EIP-8148</a>
+    <div class="links">
+      <a href="#problem">Problem</a>
+      <a href="#solution">Solution</a>
+      <a href="#implementation">Client changes</a>
+      <a class="btn" href="#support">Support the EIP</a>
+    </div>
+    <details class="mobile-menu">
+      <summary>Menu</summary>
+      <div class="mobile-menu-panel">
+        <a href="#problem">Problem</a>
+        <a href="#solution">Solution</a>
+        <a href="#implementation">Client changes</a>
+        <a href="#support">Support the EIP</a>
+      </div>
+    </details>
+  </div>
+</nav>
+
+<main id="main" tabindex="-1">
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-copy">
+      <div class="eyebrow hero-eyebrow">EIP-8148 · Proposed for Hegotá</div>
+      <h1>Custom sweep threshold for validators</h1>
+      <div class="dek">
+        <p>Set how much ETH stays in your validator. Let rewards add to your stake up to that amount. Receive the excess automatically.</p>
+      </div>
+      <div class="hero-actions">
+        <a class="btn ghost" href="#problem">The problem</a>
+        <a class="btn ghost" href="#solution">The solution</a>
+      </div>
+    </div>
+    <figure class="hero-art">
+      <div class="simulation-viewport">
+        <svg id="sim" viewBox="0 0 640 580" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+        <defs>
+          <clipPath id="barclip"><path d="M80 66 C 80 218, 79 379, 80 521 C 126 521, 173 523, 219 520 C 218 372, 219 220, 218 66 L 80 66 Z"/></clipPath>
+        </defs>
+        <rect id="fill" x="79" y="294" width="141" height="227" fill="#B2F2BB" fill-opacity="0.8" clip-path="url(#barclip)"/>
+        <path d="M83 70 C 81 220, 79 379, 80 521 C 126 521, 173 523, 219 520 C 218 370, 220 218, 217 64" stroke="#1E1E1E" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" fill="none"/>
+        <g id="staticBits">
+          <ellipse cx="146" cy="292" rx="16" ry="15" fill="#FFEC99" stroke="#1E1E1E" stroke-width="2.2" transform="rotate(-4 146 292)"/>
+          <ellipse cx="284" cy="216" rx="14" ry="13" fill="#FFEC99" stroke="#1E1E1E" stroke-width="2.2" transform="rotate(6 284 216)"/>
+          <ellipse cx="382" cy="168" rx="14" ry="13" fill="#FFEC99" stroke="#1E1E1E" stroke-width="2.2" transform="rotate(-7 382 168)"/>
+          <path d="M175 268 C 260 232, 360 208, 446 220 " stroke="#1E1E1E" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+          <path d="M430 206 L 447 220 L 426 228" stroke="#1E1E1E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <path d="M150 398 C 180 404, 182 440, 152 448 C 124 454, 112 420, 134 406" stroke="#17692C" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+          <path d="M128 398 L 136 405 L 127 411" stroke="#17692C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <text class="sim-reward-note" x="246" y="430" font-family="Shantell Sans, cursive" font-weight="500" font-size="19" fill="#17692C">rewards add to stake</text>
+        </g>
+        <path id="thr" d="M28 294 C 190 290, 430 298, 612 292" stroke="#E03131" stroke-width="2.4" stroke-dasharray="13 9" stroke-linecap="round" fill="none"/>
+        <text class="sim-threshold" id="thrLabel" x="240" y="330" font-family="Shantell Sans, cursive" font-weight="500" font-size="19" fill="#C92A2A">your threshold — 128 ETH</text>
+        <text class="sim-balance" id="balLabel" x="150" y="286" text-anchor="middle" font-family="Shantell Sans, cursive" font-weight="500" font-size="16" fill="#1E1E1E" visibility="hidden">32 ETH</text>
+        <path d="M456 194 C 498 191, 546 195, 590 193 C 592 222, 591 252, 592 280 C 546 283, 493 281, 450 282 C 448 252, 449 223, 456 194 Z" fill="#D0BFFF" fill-opacity="0.8" stroke="#1E1E1E" stroke-width="2.2" stroke-linejoin="round"/>
+        <path d="M457 224 C 502 221, 550 225, 591 223" stroke="#1E1E1E" stroke-width="2" fill="none"/>
+        <ellipse cx="568" cy="252" rx="7" ry="6.5" fill="#FDFDFC" stroke="#1E1E1E" stroke-width="2"/>
+        <text class="sim-address" x="524" y="314" text-anchor="middle" font-family="Shantell Sans, cursive" font-weight="500" font-size="18" fill="#1E1E1E">withdrawal address</text>
+        <g id="flight"></g>
+        <text class="sim-validator" x="84" y="556" font-family="Shantell Sans, cursive" font-weight="500" font-size="19" fill="#1E1E1E">0x02 validator</text>
+        <text class="sim-hint" id="hint" x="250" y="556" font-family="Shantell Sans, cursive" font-weight="500" font-size="15" fill="#6B6B66" visibility="hidden">move pointer · click to lock · use slider to adjust</text>
+        </svg>
+      </div>
+      <div class="simulation-controls" id="simulation-controls" hidden>
+        <label for="threshold-control">Sweep threshold</label>
+        <div class="simulation-control-row">
+          <input id="threshold-control" type="range" min="32" max="2048" step="1" value="128" aria-describedby="simulation-help simulation-minimum-note">
+          <output id="threshold-output" for="threshold-control">128 ETH</output>
+          <button id="simulation-toggle" type="button">Pause animation</button>
+        </div>
+        <p class="simulation-note" id="simulation-minimum-note">The selectable minimum follows the current validator balance.</p>
+      </div>
+      <figcaption class="visually-hidden" id="simulation-help">Diagram of a custom validator sweep threshold. Rewards stay in the validator below the threshold and move to the withdrawal address above it.</figcaption>
+    </figure>
+  </div>
+</header>
+
+<div class="strip">
+  <div class="wrap">
+    <div class="cell"><a href="https://eips.ethereum.org/EIPS/eip-8148">The EIP ↗</a><div>eips.ethereum.org</div></div>
+    <div class="cell"><a href="https://eips.ethereum.org/EIPS/eip-8081">Hegotá proposals ↗</a><div>EIP-8081 · Proposed for Inclusion</div></div>
+    <div class="cell"><a href="https://github.com/ethereum/consensus-specs/tree/master/specs/_features/eip8148">Consensus specification ↗</a><div>consensus-specs</div></div>
+    <div class="cell"><a href="https://github.com/ethereum/sys-asm/pull/54">System contract ↗</a><div>sys-asm PR #54</div></div>
+  </div>
+</div>
+
+<section class="videos">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="eyebrow">Video</div>
+      <h2>Presentations about EIP-8148</h2>
+    </div>
+    <div class="row">
+      <div class="vwrap">
+        <a class="card vcard" href="https://www.youtube.com/watch?v=j7j3Yi7HWms">
+          <div class="thumb"><img src="assets/thumb-ethstaker.webp" alt="" width="960" height="540" loading="lazy" decoding="async">
+            <svg class="play" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M22 4 C 32 3, 41 12, 40 22 C 39 33, 31 41, 21 40 C 11 39, 3 31, 4 21 C 5 11, 13 5, 22 4 Z" fill="#FDFDFC" fill-opacity="0.92" stroke="#1E1E1E" stroke-width="2.2" stroke-linejoin="round"/><path d="M18 14 C 22 17, 27 20, 30 22 C 27 25, 22 27, 18 30 C 17.5 25, 17.5 19, 18 14 Z" fill="#6965DB" stroke="#1E1E1E" stroke-width="2" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="vbody">
+            <h3>EthStaker Community Call #69</h3>
+            <p>Why stakers want custom thresholds, how they work, and questions from the community.</p>
+            <div class="meta">Dima Gusakov · Jul 2026 · 64 min</div>
+          </div>
+        </a>
+        <div class="src source-tight">Slides: <a href="https://pitch.com/v/eip-8148-ethstaker-cc-njxpbz">EthStaker slides ↗</a></div>
+      </div>
+      <div class="vwrap">
+        <a class="card vcard" href="https://www.youtube.com/watch?v=6rx9Vo7QcJg&amp;t=2071s">
+          <div class="thumb"><img src="assets/thumb-acdc.webp" alt="" width="960" height="540" loading="lazy" decoding="async">
+            <svg class="play" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M22 4 C 32 3, 41 12, 40 22 C 39 33, 31 41, 21 40 C 11 39, 3 31, 4 21 C 5 11, 13 5, 22 4 Z" fill="#FDFDFC" fill-opacity="0.92" stroke="#1E1E1E" stroke-width="2.2" stroke-linejoin="round"/><path d="M18 14 C 22 17, 27 20, 30 22 C 27 25, 22 27, 18 30 C 17.5 25, 17.5 19, 18 14 Z" fill="#6965DB" stroke="#1E1E1E" stroke-width="2" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="vbody">
+            <h3>All Core Devs — Consensus #179</h3>
+            <p>The proposal, followed by feedback from solo stakers, operators, and client teams.</p>
+            <div class="meta">EIP-8148 from 34:31 · May 2026</div>
+          </div>
+        </a>
+        <div class="src source-tight">Slides: <a href="https://pitch.com/v/eip-8148-acdc-z4w5ev">ACDC slides ↗</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="story alt" id="problem">
+  <div class="wrap">
+    <div class="row section-intro">
+      <div class="sechead section-intro-copy">
+        <div class="eyebrow">The problem</div>
+        <h2>Compounding makes rewards harder to access</h2>
+        <p class="dek">Stakers use rewards for operating costs or as income. They may also want those rewards to increase their stake. Today, Ethereum gives them two fixed options.</p>
+      </div>
+      <figure class="problem-figure" aria-label="Automatic withdrawal thresholds: 2,048 ETH for 0x02 and 32 ETH for 0x01">
+        <svg viewBox="0 0 420 300" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M20 282 C 130 279, 290 284, 404 280" stroke="#E4E4DE" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M130 40 C 165 37, 200 41, 234 38 C 236 120, 234 202, 235 278 C 200 281, 165 279, 131 280 C 129 200, 131 120, 130 40 Z" fill="#B2F2BB" fill-opacity="0.8" stroke="#1E1E1E" stroke-width="2.2" stroke-linejoin="round"/>
+          <text x="182" y="26" text-anchor="middle" font-family="Shantell Sans, cursive" font-weight="500" font-size="16" fill="#1E1E1E">0x02 — 2,048 ETH</text>
+          <path d="M300 250 C 322 248, 344 250, 364 248 C 366 260, 364 271, 365 278 C 344 280, 322 279, 301 280 C 299 269, 301 259, 300 250 Z" fill="#A5D8FF" fill-opacity="0.8" stroke="#1E1E1E" stroke-width="2.2" stroke-linejoin="round"/>
+          <text x="332" y="236" text-anchor="middle" font-family="Shantell Sans, cursive" font-weight="500" font-size="16" fill="#1E1E1E">0x01 — 32 ETH</text>
+        </svg>
+      </figure>
+    </div>
+    <div class="row problem-options">
+      <div class="card tint-blue">
+        <div class="tag tag-blue">0x01 · 32 ETH</div>
+        <h3>Rewards arrive automatically</h3>
+        <p>A 0x01 validator keeps 32 ETH staked. Ethereum sends rewards above 32 ETH to its withdrawal address: the account that receives ETH from the validator.</p>
+        <p>Those rewards do not increase the stake. To stake them with 0x01 validators, you must collect another 32 ETH for a new validator.</p>
+      </div>
+      <div class="card tint-red">
+        <div class="tag tag-orange">0x02 · Up to 2,048 ETH</div>
+        <h3>Rewards increase the stake</h3>
+        <p>A 0x02 validator keeps its rewards. They increase its stake, so Ethereum calculates more rewards. This is compounding.</p>
+        <p>Automatic withdrawals start above 2,048 ETH. Below that level, you must send a partial withdrawal request to use your rewards.</p>
+      </div>
+    </div>
+    <div class="narrative problem-impact">
+      <h3>Manual withdrawals add work and delay</h3>
+      <p>Each partial withdrawal starts with a request from the withdrawal address. The transaction has a gas cost and a request fee. The exit queue can add a delay before the rewards become available.</p>
+      <p>Even a large operator can have clients with less than 2,048 ETH each. When clients control their own withdrawal addresses, the operator cannot send withdrawal requests for them. Each client must send their own requests.</p>
+      <h3>The need for automatic rewards can prevent consolidation</h3>
+      <p>Stakers who need automatic rewards can keep separate 32 ETH validators. Consolidation into fewer 0x02 validators would replace those withdrawals with manual requests below 2,048 ETH.</p>
+    </div>
+    <p class="fine">This proposal changes withdrawals from the validator balance. It does not change transaction fee or MEV payments from the execution layer.</p>
+    <div class="src source-note">Sources: <a href="https://www.youtube.com/watch?v=j7j3Yi7HWms&amp;t=2170s">EthStaker: why operators keep 0x01 validators</a> · <a href="https://www.youtube.com/watch?v=6rx9Vo7QcJg&amp;t=2828s">ACDC: stakers on income and withdrawals</a> · <a href="https://eips.ethereum.org/EIPS/eip-8148#motivation">EIP-8148: motivation</a></div>
+  </div>
+</section>
+
+<section class="story" id="solution">
+  <div class="wrap">
+    <div class="row section-intro">
+      <div class="sechead section-intro-copy">
+        <div class="eyebrow">The solution</div>
+        <h2>Compounding with a threshold you set</h2>
+        <p class="dek">EIP-8148 lets each 0x02 validator use its own sweep threshold. This is the balance above which Ethereum sends automatic withdrawals.</p>
+      </div>
+      <figure class="solution-figure" aria-label="Diagram: a validator with a custom threshold line across it">
+        <svg viewBox="0 0 320 310" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M105 152 C 106 196, 105 240, 105 282 C 141 282, 178 284, 215 281 C 214 238, 215 196, 214 152 C 178 154, 141 150, 105 152 Z" fill="#B2F2BB" fill-opacity="0.8"/>
+          <path d="M107 44 C 105 124, 104 204, 105 282 C 141 282, 178 284, 215 281 C 214 202, 216 120, 213 38" stroke="#1E1E1E" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" fill="none"/>
+          <path d="M20 150 C 110 146, 210 154, 300 148" stroke="#E03131" stroke-width="2.4" stroke-dasharray="12 8" stroke-linecap="round" fill="none"/>
+          <text x="160" y="112" text-anchor="middle" font-family="Shantell Sans, cursive" font-weight="500" font-size="16" fill="#C92A2A">your</text>
+          <text x="160" y="134" text-anchor="middle" font-family="Shantell Sans, cursive" font-weight="500" font-size="16" fill="#C92A2A">threshold</text>
+          <text x="160" y="306" text-anchor="middle" font-family="Shantell Sans, cursive" font-weight="500" font-size="15" fill="#1E1E1E">0x02 validator</text>
+        </svg>
+      </figure>
+    </div>
+
+    <div class="narrative solution-flow">
+      <div class="topic">
+        <h3><span class="topic-num" aria-hidden="true">01</span> How rewards move</h3>
+        <p>Below the threshold, rewards stay in the validator and increase its stake. Above it, Ethereum sends the excess balance to the withdrawal address through its automatic withdrawal cycle: the sweep.</p>
+        <p>The sweep sends the excess in each cycle. You receive it automatically, without a transaction or fee.</p>
+        <p>Ethereum uses the effective balance to calculate rewards and voting weight. This balance updates in steps. It must be at or above the threshold before automatic withdrawals start.</p>
+      </div>
+
+      <div class="topic">
+        <h3><span class="topic-num" aria-hidden="true">02</span> Set the threshold</h3>
+        <p>Select a value from 32 to 2,048 ETH, in steps of 1 ETH. There are two ways to set it.</p>
+        <dl class="setup-options">
+          <div><dt>For a new validator</dt><dd>The initial deposit can include the threshold in the 0x02 withdrawal credentials. Deposit software encodes this value.</dd></div>
+          <div><dt>For a registered validator</dt><dd>The withdrawal address sends a request to the system contract. Each request sets the threshold for one validator and has a gas cost and a request fee.</dd></div>
+        </dl>
+        <p>Only the withdrawal address can change the threshold. This keeps control with the staker, including when someone else operates the validator.</p>
+        <p>The new threshold must be at or above the validator balance when the network processes the request.</p>
+      </div>
+
+      <div class="topic">
+        <h3><span class="topic-num" aria-hidden="true">03</span> Example: keep 128 ETH staked</h3>
+        <p>You deposit 128 ETH into a new 0x02 validator with a 128 ETH sweep threshold. The validator keeps 128 ETH staked. The sweep sends the rewards to your withdrawal address.</p>
+        <div class="card tint-green threshold-example">
+          <p>For a balance of 128.2 ETH, the next sweep works as follows:</p>
+          <dl>
+            <div><dt>Stays in the validator</dt><dd>128 ETH</dd></div>
+            <div><dt>Goes to the withdrawal address</dt><dd>0.2 ETH</dd></div>
+          </dl>
+          <p>The sweep sends further rewards in later cycles. The interval between withdrawals depends on the sweep cycle.</p>
+        </div>
+      </div>
+
+      <div class="topic">
+        <h3><span class="topic-num" aria-hidden="true">04</span> Adjust the stake later</h3>
+        <p>Before you add stake, make sure the threshold is high enough. If you increase it, wait for the network to accept the change. Then add ETH or transfer stake from another validator through consolidation. The sweep uses the total balance, so it can also withdraw deposits above the threshold.</p>
+        <p>To set a threshold below the current balance, first make a partial withdrawal. After it completes, set the new threshold. This preserves the normal withdrawal queue.</p>
+        <p><a href="#confirm-threshold">How to confirm a threshold change</a></p>
+      </div>
+
+      <div class="topic">
+        <h3><span class="topic-num" aria-hidden="true">05</span> The default stays at 2,048 ETH</h3>
+        <p>Custom thresholds are optional. At activation, registered 0x02 validators keep the 2,048 ETH default. Validators with 0x00 or 0x01 credentials keep their current withdrawal rules.</p>
+      </div>
+    </div>
+    <div class="src source-note-wide">Sources: <a href="https://eips.ethereum.org/EIPS/eip-8148">EIP-8148</a> · <a href="https://github.com/ethereum/consensus-specs/blob/master/specs/_features/eip8148/beacon-chain.md">Consensus specification: thresholds, effective balance, and withdrawals</a></div>
+  </div>
+</section>
+
+<section class="alt" id="network">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="eyebrow">Effect on the network</div>
+      <h2>More stakers can consolidate</h2>
+      <p class="dek">EIP-7251 lets operators move stake into fewer 0x02 validators. EIP-8148 lets them keep automatic reward withdrawals at a balance they select.</p>
+    </div>
+    <div class="narrative network-flow">
+      <h3>Fewer validators for the same stake</h3>
+      <figure class="card consolidation">
+        <div class="consolidation-flow">
+          <div class="consolidation-stage">
+            <p class="consolidation-label">Today · 0x01</p>
+            <p class="consolidation-amount">8 × 32 ETH</p>
+            <svg viewBox="0 0 280 144" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs><path id="consolidation-validator" d="M2 3 C 17 1, 34 4, 48 2 C 50 18, 47 35, 49 48 C 33 50, 16 47, 2 49 C 0 34, 3 18, 2 3 Z"/></defs>
+              <g fill="#A5D8FF" fill-opacity="0.8" stroke="#1E1E1E" stroke-width="2.2" stroke-linejoin="round">
+                <use href="#consolidation-validator" x="24" y="10"/>
+                <use href="#consolidation-validator" x="84" y="10"/>
+                <use href="#consolidation-validator" x="144" y="10"/>
+                <use href="#consolidation-validator" x="204" y="10"/>
+                <use href="#consolidation-validator" x="24" y="82"/>
+                <use href="#consolidation-validator" x="84" y="82"/>
+                <use href="#consolidation-validator" x="144" y="82"/>
+                <use href="#consolidation-validator" x="204" y="82"/>
+              </g>
+            </svg>
+            <p class="consolidation-threshold">32 ETH threshold per validator</p>
+          </div>
+          <div class="consolidation-arrow" aria-hidden="true">
+            <svg viewBox="0 0 64 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 16 C 20 14, 39 18, 59 15 M46 4 L 60 15 L 47 28" stroke="#1E1E1E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="consolidation-stage">
+            <p class="consolidation-label">With EIP-8148 · 0x02</p>
+            <p class="consolidation-amount">1 × 256 ETH</p>
+            <svg viewBox="0 0 280 144" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M40 34 C 105 31, 177 36, 240 33 L 241 131 C 176 133, 104 130, 39 132 Z" fill="#B2F2BB" fill-opacity="0.8"/>
+              <path d="M41 10 C 39 49, 42 94, 39 132 C 104 130, 176 134, 241 131 C 239 91, 242 47, 239 9" stroke="#1E1E1E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M15 34 C 92 31, 192 37, 265 33" stroke="#E03131" stroke-width="2.4" stroke-dasharray="10 7" stroke-linecap="round"/>
+            </svg>
+            <p class="consolidation-threshold">256 ETH custom threshold</p>
+          </div>
+        </div>
+        <figcaption>The same 256 ETH stays staked. The sweep sends rewards automatically in both cases.</figcaption>
+      </figure>
+      <p>Fewer validators send fewer votes for the network to process. Proposals for faster finality use a smaller validator set.</p>
+      <h3>Smaller validators for staking pools</h3>
+      <p>In some pools, operators supply a bond: ETH that can cover penalties. The pool supplies the rest of the stake. The bond for a full 2,048 ETH validator can be too large for a home staker.</p>
+      <p>Custom thresholds let pools design smaller 0x02 validators with automatic reward withdrawals. Each pool sets its own bond requirements.</p>
+    </div>
+    <div class="src source-note-wide">Sources: <a href="https://eips.ethereum.org/EIPS/eip-7251">EIP-7251</a> · <a href="https://www.youtube.com/watch?v=j7j3Yi7HWms&amp;t=2046s">EthStaker: consolidation and smaller stakers</a> · <a href="https://www.youtube.com/watch?v=I1CIZdPPyxQ&amp;t=425s">Home-staker talk: bond requirements</a></div>
+  </div>
+</section>
+
+<section id="implementation">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="eyebrow">For client developers</div>
+      <h2>Built on mechanisms clients already use</h2>
+      <p class="dek">EIP-8148 adds a system contract, a request type, and a threshold for each validator. Requests and withdrawals use mechanisms clients already implement.</p>
+    </div>
+    <div class="impl">
+      <div class="card">
+        <h3>Execution layer</h3>
+        <div class="impl-existing">
+          <h4>Already in use</h4>
+          <p><a href="https://eips.ethereum.org/EIPS/eip-7002">EIP-7002</a> defines the queue and fee model. <a href="https://eips.ethereum.org/EIPS/eip-7685">EIP-7685</a> defines how execution clients send requests to consensus clients.</p>
+        </div>
+        <div class="impl-additions">
+          <h4>New in EIP-8148</h4>
+          <ul class="rules">
+            <li>Add a system contract that accepts a validator public key and the new threshold.</li>
+            <li>Add a threshold request type for transfer to consensus clients.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Consensus layer</h3>
+        <div class="impl-existing">
+          <h4>Already in use</h4>
+          <p>Clients already run the withdrawal sweep and update effective balances.</p>
+        </div>
+        <div class="impl-additions">
+          <h4>New in EIP-8148</h4>
+          <ul class="rules">
+            <li>Store thresholds in a separate list in the beacon state. Keep the <code>Validator</code> container unchanged.</li>
+            <li>Process the new requests. Validate the withdrawal address, validator status, and threshold.</li>
+            <li>Use each validator’s threshold in the current sweep and effective balance updates.</li>
+            <li>Initialize defaults at the fork and on a switch to 0x02. Read custom thresholds from new validator deposits.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="src source-note-wide">Implementation: <a href="https://eips.ethereum.org/EIPS/eip-8148#specification">EIP-8148 specification</a> · <a href="https://github.com/ethereum/consensus-specs/tree/master/specs/_features/eip8148">Consensus specification</a> · <a href="https://github.com/ethereum/sys-asm/pull/54">System contract PR #54</a></div>
+  </div>
+</section>
+
+<section class="alt" id="status">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="eyebrow">Status · <time datetime="2026-09-09">9 Sep 2026</time></div>
+      <h2>Progress toward Hegotá</h2>
+      <p class="dek">EIP-8148 is proposed for Hegotá. The specification, system contract, and Prysm proof of concept are available for review.</p>
+    </div>
+    <dl class="status-list">
+      <div class="srow"><dt class="k"><a href="https://eips.ethereum.org/EIPS/eip-8148">EIP-8148 proposal</a></dt><dd class="v done"><span class="dot" aria-hidden="true"></span>Published · Draft</dd></div>
+      <div class="srow"><dt class="k"><a href="https://eips.ethereum.org/EIPS/eip-8081">Hegotá proposal</a></dt><dd class="v done"><span class="dot" aria-hidden="true"></span>Proposed for Inclusion</dd></div>
+      <div class="srow"><dt class="k"><a href="https://github.com/ethereum/consensus-specs/tree/master/specs/_features/eip8148">Consensus specification</a></dt><dd class="v done"><span class="dot" aria-hidden="true"></span>Published in consensus-specs</dd></div>
+      <div class="srow"><dt class="k"><a href="https://github.com/ethereum/sys-asm/pull/54">System contract implementation</a></dt><dd class="v done"><span class="dot" aria-hidden="true"></span>PR #54 available for review</dd></div>
+      <div class="srow"><dt class="k">Client implementations</dt><dd class="v done"><span class="dot" aria-hidden="true"></span><a href="https://github.com/OffchainLabs/prysm/pull/17338">Prysm proof of concept</a><span class="remaining">Other clients pending</span></dd></div>
+      <div class="srow todo"><dt class="k">System contract audit</dt><dd class="v"><span class="dot" aria-hidden="true"></span>Pending</dd></div>
+      <div class="srow todo"><dt class="k">Devnets</dt><dd class="v"><span class="dot" aria-hidden="true"></span>Pending</dd></div>
+    </dl>
+    <p class="status-next"><strong>Next steps:</strong> other client implementations, devnets, the system contract audit, and a decision on Hegotá inclusion.</p>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="eyebrow">Questions</div>
+      <h2>Operation, fees, and compatibility</h2>
+    </div>
+    <div class="acc">
+      <h3 class="faq-group faq-group-first">The basics</h3>
+      <details class="qa">
+        <summary>Why not use manual withdrawals?</summary>
+        <div class="qa-a"><p>Manual withdrawals let you select an amount each time. Each request has a gas cost, a request fee, and a possible queue delay.</p><p>A custom threshold lets the sweep send the excess balance automatically. You do not need a new request for each withdrawal.</p>
+        <div class="src"><a href="https://eips.ethereum.org/EIPS/eip-8148#motivation">EIP-8148: motivation</a></div></div>
+      </details>
+      <details class="qa">
+        <summary>Do I have to set a custom threshold?</summary>
+        <div class="qa-a"><p>No. Custom thresholds are optional. At activation, registered 0x02 validators keep the 2,048 ETH default. The withdrawal rules for 0x00 and 0x01 validators stay the same.</p>
+        <div class="src"><a href="https://eips.ethereum.org/EIPS/eip-8148#backwards-compatibility">EIP-8148: compatibility</a></div></div>
+      </details>
+      <details class="qa">
+        <summary>Can I use this with one 0x01 validator?</summary>
+        <div class="qa-a"><p>You can use a custom threshold after a switch to 0x02. EIP-7251 lets you do this without a second validator. The switch starts with the 2,048 ETH threshold.</p><p>After activation of EIP-8148, the withdrawal address can send a request for a custom threshold.</p>
+        <div class="src"><a href="https://eips.ethereum.org/EIPS/eip-7251">EIP-7251</a> · <a href="https://github.com/ethereum/consensus-specs/blob/master/specs/_features/eip8148/beacon-chain.md">EIP-8148 consensus specification</a></div></div>
+      </details>
+      <details class="qa">
+        <summary>Can I make a partial withdrawal below the threshold?</summary>
+        <div class="qa-a"><p>The partial withdrawal mechanism stays available with the same eligibility rules, fees, and queue delay. A custom threshold does not change the exit rules.</p>
+        <div class="src"><a href="https://eips.ethereum.org/EIPS/eip-8148#rationale">EIP-8148: rationale</a></div></div>
+      </details>
+      <h3 class="faq-group">Operation</h3>
+      <details class="qa">
+        <summary>What can prevent a threshold change?</summary>
+        <div class="qa-a"><p>The validator must have 0x02 credentials and must not have started its exit. The request must come from its withdrawal address.</p><p>The threshold must be from 32 to 2,048 ETH, in steps of 1 ETH. It must be at or above the validator balance when the consensus layer processes the request. Rewards can increase that balance before processing.</p><p>If the consensus layer rejects the request, the threshold stays the same. There is no fee refund.</p>
+        <div class="src"><a href="https://github.com/ethereum/consensus-specs/blob/master/specs/_features/eip8148/beacon-chain.md#new-process_set_sweep_threshold_request">Consensus specification: request processing</a></div></div>
+      </details>
+      <details class="qa">
+        <summary>How much does a threshold change cost?</summary>
+        <div class="qa-a"><p>Each request has a gas cost and a request fee. The minimum request fee is 1 wei.</p><p>The fee mechanism has a target of two requests per block across the network. The fee increases with excess demand. Earlier demand can keep the fee above its minimum.</p><p>With a threshold in the initial deposit, you do not send a threshold request.</p>
+        <div class="src"><a href="https://eips.ethereum.org/EIPS/eip-8148#fee-calculation">EIP-8148: request fee</a></div></div>
+      </details>
+      <details class="qa">
+        <summary>Can a multisig or contract send the request?</summary>
+        <div class="qa-a"><p>A multisig or contract can send the request if it is the withdrawal address. The contract must have a function that sends the request to the system contract. The consensus layer compares the caller address with the withdrawal address. The consensus layer rejects a request from a different address.</p>
+        <div class="src"><a href="https://github.com/ethereum/sys-asm/pull/54">System contract PR #54</a> · <a href="https://github.com/ethereum/consensus-specs/blob/master/specs/_features/eip8148/beacon-chain.md">Consensus specification</a></div></div>
+      </details>
+      <details class="qa">
+        <summary>Does one request set thresholds for more than one validator?</summary>
+        <div class="qa-a"><p>Each request contains one validator public key. A contract withdrawal address can send more than one request in one transaction. Each request has a fee.</p><p>The system contract sends up to 16 requests per block to the consensus layer. A long queue can increase the time before processing. Network demand can increase the request fee.</p>
+        <div class="src"><a href="https://eips.ethereum.org/EIPS/eip-8148#execution-layer">EIP-8148: request format and queue</a></div></div>
+      </details>
+      <details class="qa">
+        <summary>How do I read the threshold?</summary>
+        <div class="qa-a" id="confirm-threshold"><p>Read the entry for the validator in <code>validator_sweep_thresholds</code> in the beacon state. Make sure that it contains the value you set.</p><p>The transaction receipt shows the result of the contract call. The beacon state shows the threshold after request processing.</p>
+        <div class="src"><a href="https://github.com/ethereum/consensus-specs/blob/master/specs/_features/eip8148/beacon-chain.md#new-process_set_sweep_threshold_request">Consensus specification: request processing</a></div></div>
+      </details>
+      <h3 class="faq-group">Client implementation</h3>
+      <details class="qa">
+        <summary>Which deposits can set a threshold?</summary>
+        <div class="qa-a"><p>The fork sets defaults for registered validators. It does not read a threshold from their credentials.</p><p>For a new validator, the first deposit contains the credentials. A zero threshold or a value outside 32–2,048 ETH gives the 2,048 ETH default. Top-up deposits do not replace these credentials or change the threshold.</p>
+        <div class="src"><a href="https://eips.ethereum.org/EIPS/eip-8148#backwards-compatibility">EIP-8148: compatibility</a> · <a href="https://github.com/ethereum/consensus-specs/blob/master/specs/_features/eip8148/beacon-chain.md">Consensus specification</a></div></div>
+      </details>
+      <details class="qa">
+        <summary>Why are thresholds outside the Validator container?</summary>
+        <div class="qa-a"><p>The list keeps thresholds outside the <code>Validator</code> container. It uses the validator index, as the balance list does.</p><p>Each threshold is a <code>uint64</code> value in Gwei: eight bytes before list and database overhead. The withdrawal sweep and effective balance updates read this value.</p>
+        <div class="src"><a href="https://eips.ethereum.org/EIPS/eip-8148#validator_sweep_thresholds-mapping-in-beaconstate">EIP-8148: state layout</a></div></div>
+      </details>
+      <details class="qa">
+        <summary>Why does the maximum effective balance stay at 2,048 ETH?</summary>
+        <div class="qa-a"><p>Custom thresholds and a higher maximum effective balance have different effects. A higher maximum lets each validator hold more stake. A custom threshold sets the balance for automatic withdrawals below that maximum.</p><p>The authors keep these changes in different proposals to limit the scope of EIP-8148. The Ethereum Magicians thread contains their reasons for this decision.</p>
+        <div class="src"><a href="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669">Ethereum Magicians: discussion of maximum effective balance</a></div></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="story support" id="support">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="eyebrow">Support the proposal</div>
+      <h2>Support EIP-8148 for Hegotá</h2>
+      <p class="dek">Help client teams review the proposal for Hegotá. Rank it, describe how your validators would use it, or comment on the specification.</p>
+    </div>
+    <div class="row">
+      <div class="card">
+        <div class="aud">Client teams and community</div>
+        <h3>Rank the proposal</h3>
+        <p>Compare EIP-8148 with the other Hegotá proposals. Explain your ranking on Forkcast.</p>
+        <a class="btn" href="https://forkcast.org/rank/">Rank on Forkcast</a>
+      </div>
+      <div class="card">
+        <div class="aud">VALIDATORS</div>
+        <h3>Give validator feedback</h3>
+        <p>Describe how your validators would use custom thresholds. EthVA weights feedback by stake.</p>
+        <a class="btn" href="https://hub.ethva.net/eip/8148">Give feedback on EthVA</a>
+      </div>
+      <div class="card">
+        <div class="aud">Researchers and protocol teams</div>
+        <h3>Comment on the specification</h3>
+        <p>Add a use case, question, or implementation concern to the Ethereum Magicians thread. Give the reasons for each change.</p>
+        <a class="btn" href="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669">Comment on Magicians</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="end">
+  <div class="wrap">
+    <div class="links">
+      <a href="https://eips.ethereum.org/EIPS/eip-8148">The EIP</a>
+      <a href="https://eips.ethereum.org/EIPS/eip-8081">Hegotá proposals (EIP-8081)</a>
+      <a href="https://github.com/ethereum/consensus-specs/tree/master/specs/_features/eip8148">Consensus specification</a>
+      <a href="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669">Ethereum Magicians thread</a>
+      <a href="https://github.com/ethereum/sys-asm/pull/54">System contract</a>
+      <a href="https://github.com/OffchainLabs/prysm/pull/17338">Prysm proof of concept</a>
+      <a href="https://www.youtube.com/watch?v=j7j3Yi7HWms">EthStaker call</a>
+      <a href="https://www.youtube.com/watch?v=6rx9Vo7QcJg&amp;t=2071s">ACDC #179</a>
+      <a href="https://dune.com/butta_ethereum/maxeb-0x02-and-consolidations">Validator data on Dune</a>
+    </div>
+    <div class="stamp">EIP-8148 · A page by the proposal’s authors · Updated <time datetime="2026-09-10">10 Sep 2026</time></div>
+  </div>
+</footer>
+</body>
+</html>

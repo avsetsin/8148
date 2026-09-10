@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://eip8148.com/sitemap.xml
