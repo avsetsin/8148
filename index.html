@@ -203,12 +203,30 @@
     <div class="narrative problem-impact">
       <h3>Manual withdrawals add work and delay</h3>
       <p>Each partial withdrawal starts with a request from the withdrawal address. The transaction has a gas cost and a request fee. The exit queue can add a delay before the rewards become available.</p>
-      <p>Even a large operator can have clients with less than 2,048 ETH each. When clients control their own withdrawal addresses, the operator cannot send withdrawal requests for them. Each client must send their own requests.</p>
+      <h3 id="audience">Who needs automatic rewards?</h3>
+      <dl class="audience-list">
+        <div>
+          <dt>Solo stakers</dt>
+          <dd><p>Solo stakers run validators with their own ETH. Rewards can cover hardware, electricity, or other expenses.</p></dd>
+        </div>
+        <div>
+          <dt>Non-custodial staking clients</dt>
+          <dd>
+            <p>A service runs the validator, but the client controls its withdrawal address. This is a non-custodial staking service.</p>
+            <p>Even a large operator can serve many clients with less than 2,048 ETH each. It cannot send withdrawal requests for them. Each client must send their own requests.</p>
+          </dd>
+        </div>
+        <div>
+          <dt>Operators in staking pools</dt>
+          <dd><p>In some pools, operators supply a bond: ETH that can cover penalties. The pool supplies the rest of the stake. A full 2,048 ETH validator can require more bond than a home staker can supply.</p></dd>
+        </div>
+      </dl>
       <h3>The need for automatic rewards can prevent consolidation</h3>
       <p>Stakers who need automatic rewards can keep separate 32 ETH validators. Consolidation into fewer 0x02 validators would replace those withdrawals with manual requests below 2,048 ETH.</p>
+      <p>P2P.org reports that some clients keep separate 32 ETH validators to receive automatic rewards. EIP-8148 would let these clients consolidate and keep automatic withdrawals at a threshold they set.</p>
     </div>
     <p class="fine">This proposal changes withdrawals from the validator balance. It does not change transaction fee or MEV payments from the execution layer.</p>
-    <p class="src source-note">Hear directly from operators in the <a href="https://www.youtube.com/watch?v=j7j3Yi7HWms&amp;t=2170s">EthStaker discussion</a> and <a href="https://www.youtube.com/watch?v=6rx9Vo7QcJg&amp;t=2828s">ACDC #179</a>. The <a href="https://eips.ethereum.org/EIPS/eip-8148#motivation">EIP motivation</a> explains why automatic sweeps matter.</p>
+    <p class="src source-note">Read how <a href="https://ethereum.org/staking/saas/#non-custodial-staking-as-a-service">non-custodial staking services</a> work. Hear <a href="https://www.youtube.com/watch?v=6rx9Vo7QcJg&amp;t=3057s">P2P.org explain the withdrawal barrier</a> and the <a href="https://www.youtube.com/watch?v=j7j3Yi7HWms&amp;t=2211s">EthStaker discussion of client balances</a>. The <a href="https://eips.ethereum.org/EIPS/eip-8148#motivation">EIP motivation</a> explains why automatic sweeps matter.</p>
   </div>
 </section>
 
@@ -327,7 +345,6 @@
       </figure>
       <p>Fewer validators send fewer votes for the network to process. Proposals for faster finality use a smaller validator set.</p>
       <h3>Smaller validators for staking pools</h3>
-      <p>In some pools, operators supply a bond: ETH that can cover penalties. The pool supplies the rest of the stake. The bond for a full 2,048 ETH validator can be too large for a home staker.</p>
       <p>Custom thresholds let pools design smaller 0x02 validators with automatic reward withdrawals. Each pool sets its own bond requirements.</p>
     </div>
     <p class="src source-note-wide">For operator context, read about <a href="https://eips.ethereum.org/EIPS/eip-7251#motivation">validator consolidation</a>, then watch the discussions about <a href="https://www.youtube.com/watch?v=j7j3Yi7HWms&amp;t=2046s">smaller staking setups</a> and <a href="https://www.youtube.com/watch?v=I1CIZdPPyxQ&amp;t=425s">operator bond requirements</a>.</p>

@@ -150,6 +150,10 @@ header.hero .wrap { display: flex; align-items: center; gap: 2.5rem; padding-blo
 .narrative h3 { margin-bottom: 1rem; }
 .problem-impact { margin-top: 2.25rem; }
 .problem-impact p + h3, .network-flow p + h3 { margin-top: 2rem; }
+.audience-list { display: grid; gap: 1.5rem; margin-block: 1.25rem 2rem; }
+.audience-list > div { padding-left: 1.25rem; border-left: 2px solid var(--line); }
+.audience-list dt { margin-bottom: 0.5rem; color: var(--ink); font-family: var(--head); font-size: 1.0625rem; font-weight: 700; }
+.audience-list dd { color: var(--body); }
 .solution-flow .topic + .topic { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--line); }
 .topic-num { margin-right: 0.625rem; color: var(--accent); font-family: var(--hand); font-size: 1.125rem; font-weight: 500; }
 .setup-options { display: flex; flex-direction: column; gap: 1.125rem; margin-block: 1.25rem; padding-left: 1.25rem; border-left: 2px solid var(--b-green); }
