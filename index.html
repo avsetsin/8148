@@ -105,7 +105,19 @@
         <text class="sim-validator" x="84" y="556" font-family="Shantell Sans, cursive" font-weight="500" font-size="19" fill="#1E1E1E">0x02 validator</text>
         </svg>
       </div>
-      <figcaption class="visually-hidden" id="simulation-help">Interactive diagram of a custom validator sweep threshold. As the pointer moves, the red line and label show a new threshold while the pale line marks the current value. Click to set it, or focus the diagram and use the arrow keys. Rewards stay in the validator below the threshold and move to the withdrawal address above it.</figcaption>
+      <div class="simulation-notice" id="thresholdWarning" hidden>
+        <button class="simulation-notice-close" id="thresholdWarningClose" type="button" aria-label="Close explanation"><span aria-hidden="true">×</span></button>
+        <div role="status" aria-live="polite" aria-atomic="true">
+          <strong class="simulation-notice-title">Interesting case</strong>
+          <span class="simulation-notice-intro">You can set the threshold below your current balance. It takes two operations.</span>
+          <ol class="simulation-notice-steps">
+            <li><span class="simulation-notice-number" aria-hidden="true">1</span><span>Send a partial withdrawal</span></li>
+            <li><span class="simulation-notice-number" aria-hidden="true">2</span><span>Once the balance drops, set it to <b id="warningThresholdValue">32 ETH</b></span></li>
+          </ol>
+          <span class="simulation-notice-detail">This two-step process prevents a lower threshold from bypassing Ethereum’s churn limit.</span>
+        </div>
+      </div>
+      <figcaption class="visually-hidden" id="simulation-help">Interactive diagram of a custom validator sweep threshold. As the pointer moves, the red line and label show a new threshold while the pale line marks the current value. Click to set it, or focus the diagram and use the arrow keys. If the selected threshold is below the balance, the diagram first makes a partial withdrawal and then applies the new threshold. Rewards stay in the validator below the threshold and move to the withdrawal address above it.</figcaption>
     </figure>
   </div>
 </header>
