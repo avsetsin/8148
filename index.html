@@ -34,7 +34,7 @@
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/bricolage-grotesque-latin-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/schibsted-grotesk-latin-400-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/styles.css?v=20260910-feedback10">
+<link rel="stylesheet" href="assets/styles.css?v=20260915-voices-type">
 <script src="assets/simulation.js?v=20260910-feedback10" defer></script>
 </head>
 <body>
@@ -47,6 +47,7 @@
       <a href="#problem">Problem</a>
       <a href="#solution">Solution</a>
       <a href="#faq">FAQ</a>
+      <a href="#voices">Voices</a>
       <a class="btn" href="#support">Support the EIP</a>
     </div>
     <details class="mobile-menu">
@@ -55,6 +56,7 @@
         <a href="#problem">Problem</a>
         <a href="#solution">Solution</a>
         <a href="#faq">FAQ</a>
+        <a href="#voices">Voices</a>
         <a href="#support">Support the EIP</a>
       </div>
     </details>
@@ -672,6 +674,110 @@
   </div>
 </section>
 
+<section class="story voices" id="voices" aria-labelledby="voices-title">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="eyebrow">Operators and the Ethereum community</div>
+      <h2 id="voices-title">Voices of support <a class="voice-permalink" href="#voices" aria-label="Link to Voices of support"><span aria-hidden="true">#</span></a></h2>
+      <p class="dek">Node operators are backing EIP-8148 for a practical reason: consolidate validators and keep rewards accessible. Here are their use cases, Teku’s A-tier ranking, and feedback on the design.</p>
+    </div>
+
+    <article class="voice-ranking" id="voice-teku" aria-labelledby="voice-teku-title">
+      <div class="voice-author">
+        <h3 id="voice-teku-title">Teku <a class="voice-permalink" href="#voice-teku" aria-label="Link to Teku’s ranking"><span aria-hidden="true">#</span></a></h3>
+        <p>Ethereum consensus client</p>
+      </div>
+      <div class="voice-ranking-detail">
+        <p class="voice-tier"><span class="voice-grade">A</span><span>tier<span class="voice-tier-for">for EIP-8148</span></span></p>
+        <div class="voice-ranking-context">
+          <p class="voice-ranking-label">Hegotá client priorities</p>
+          <div class="voice-source">
+            <a href="https://forkcast.org/upgrade/hegota/client-priority/" aria-label="View Hegotá client priorities on Forkcast">Listed on Forkcast <span aria-hidden="true">↗</span></a>
+            <time datetime="2026-09-10">10 Sep 2026</time>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <div class="voice-list">
+      <figure class="voice" id="voice-kukis-global">
+        <figcaption class="voice-author">
+          <p class="voice-name">Kukis Global <a class="voice-permalink" href="#voice-kukis-global" aria-label="Link to Kukis Global’s comment"><span aria-hidden="true">#</span></a></p>
+          <p>Andrew · Node operator</p>
+        </figcaption>
+        <div class="voice-body">
+          <blockquote cite="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669/12"><span class="voice-quote-mark" aria-hidden="true">“</span><p>For node operators and staking protocols, a configurable per-validator sweep threshold is what makes consolidation under EIP-7251 practical: rewards keep arriving on the sweep as they do for 0x01 validators today, with no permanent triggered-withdrawal pipeline to build and run.</p></blockquote>
+          <div class="voice-source">
+            <a href="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669/12" aria-label="Read Andrew’s comment for Kukis Global on Ethereum Magicians">Ethereum Magicians <span aria-hidden="true">↗</span></a>
+            <time datetime="2026-09-15">15 Sep 2026</time>
+          </div>
+        </div>
+      </figure>
+
+      <figure class="voice" id="voice-amir">
+        <figcaption class="voice-author">
+          <p class="voice-name">P2P.org <a class="voice-permalink" href="#voice-amir" aria-label="Link to Amir’s comment for P2P.org"><span aria-hidden="true">#</span></a></p>
+          <p>Amir · Node operator</p>
+        </figcaption>
+        <div class="voice-body">
+          <blockquote cite="https://www.youtube.com/watch?v=6rx9Vo7QcJg&amp;t=2993s"><span class="voice-quote-mark" aria-hidden="true">“</span><p>as a node operator, we do not have the access to withdrawal address, so we cannot initiate partial withdrawals on behalf of our clients</p></blockquote>
+          <div class="voice-source">
+            <a href="https://www.youtube.com/watch?v=6rx9Vo7QcJg&amp;t=2993s" aria-label="Watch Amir explain P2P.org’s support for EIP-8148 on ACDC 179">Support on ACDC #179 <span aria-hidden="true">↗</span></a>
+            <time datetime="2026-05-28">28 May 2026</time>
+          </div>
+        </div>
+      </figure>
+
+      <figure class="voice" id="voice-teee">
+        <figcaption class="voice-author">
+          <p class="voice-name">teee <a class="voice-permalink" href="#voice-teee" aria-label="Link to teee’s comment"><span aria-hidden="true">#</span></a></p>
+          <p>Node operator · Solo staker</p>
+        </figcaption>
+        <div class="voice-body">
+          <blockquote cite="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669/11">
+            <span class="voice-quote-mark" aria-hidden="true">“</span>
+            <p>Being able to choose a lower sweep threshold would make 0x02 much more workable for CSM operators. You could compound into more effective-balance increments, but still have rewards sweep automatically at a level that makes sense for you instead of only at 2,048 ETH.</p>
+            <p>If CSM could work this way, I’d be comfortable running more validators through it. I think that would help bring more stake to independent operators and improve decentralisation.</p>
+          </blockquote>
+          <div class="voice-source">
+            <a href="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669/11" aria-label="Read teee’s comment on Ethereum Magicians">Ethereum Magicians <span aria-hidden="true">↗</span></a>
+            <time datetime="2026-09-15">15 Sep 2026</time>
+          </div>
+        </div>
+      </figure>
+
+      <figure class="voice" id="voice-celticwarrior">
+        <figcaption class="voice-author">
+          <p class="voice-name">CelticWarrior <a class="voice-permalink" href="#voice-celticwarrior" aria-label="Link to CelticWarrior’s comment"><span aria-hidden="true">#</span></a></p>
+          <p>Solo staker</p>
+        </figcaption>
+        <div class="voice-body">
+          <blockquote cite="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669/9"><span class="voice-quote-mark" aria-hidden="true">“</span><p>Those operators that do consolidate to 0x02 at some number less than the 2048 ETH threshold are now trapped by the unpredictable timing of withdrawal cashflow that 0x02 demands. The best solution to mitigate this problem is EIP 8148 to make the sweep threshold configurable.</p></blockquote>
+          <div class="voice-source">
+            <a href="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669/9" aria-label="Read CelticWarrior’s comment on Ethereum Magicians">Ethereum Magicians <span aria-hidden="true">↗</span></a>
+            <time datetime="2026-09-14">14 Sep 2026</time>
+          </div>
+        </div>
+      </figure>
+
+      <figure class="voice" id="voice-anders">
+        <figcaption class="voice-author">
+          <p class="voice-name">Anders Elowsson <a class="voice-permalink" href="#voice-anders" aria-label="Link to Anders Elowsson’s comment"><span aria-hidden="true">#</span></a></p>
+          <p>Ethereum Foundation researcher</p>
+        </figcaption>
+        <div class="voice-body">
+          <blockquote cite="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669/2"><span class="voice-quote-mark" aria-hidden="true">“</span><p>Nice, this EIP checks out with respect to the concerns outlined in EIP-8068 as far as I can tell. It restricts the sweep withdrawal threshold to the EB (whole ETH at the moment), so no new gaming vectors there.</p></blockquote>
+          <div class="voice-source">
+            <a href="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669/2" aria-label="Read Anders Elowsson’s design feedback on Ethereum Magicians">Ethereum Magicians <span aria-hidden="true">↗</span></a>
+            <time datetime="2026-03-16">16 Mar 2026</time>
+          </div>
+        </div>
+      </figure>
+    </div>
+    <p class="voices-note">EIP-8148 is <a href="https://eips.ethereum.org/EIPS/eip-8081#proposed-for-inclusion">Proposed for Inclusion in Hegotá</a>. The final scope is still under discussion.</p>
+  </div>
+</section>
+
 <section class="story support" id="support">
   <div class="wrap">
     <div class="sechead">
@@ -710,8 +816,10 @@
       <a href="https://github.com/ethereum/consensus-specs/blob/master/specs/_features/eip8148/beacon-chain.md#introduction">Review the consensus specification</a>
       <a href="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669">Join the discussion</a>
       <a href="#status">Implementation status</a>
+      <a href="#voices">Voices of support</a>
     </div>
-    <div class="stamp">EIP-8148 · A page by the proposal’s authors · Updated <time datetime="2026-09-10">10 Sep 2026</time></div>
+    <div class="stamp">EIP-8148 · A page by the proposal’s authors · Updated <time datetime="2026-09-15">15 Sep 2026</time></div>
+    <p class="quote-credits">Forum excerpts from <a href="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669">EIP-8148: Custom sweep threshold for validators</a>, by the authors credited above, are shared under <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a>.</p>
   </div>
 </footer>
 </body>
