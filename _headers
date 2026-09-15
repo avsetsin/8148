@@ -1,5 +1,5 @@
 /*
-  Content-Security-Policy: default-src 'self'; base-uri 'none'; connect-src 'none'; font-src 'self'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; object-src 'none'; script-src 'self'; style-src 'self'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; base-uri 'none'; connect-src https://api.ethva.net/eips/8148; font-src 'self'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; object-src 'none'; script-src 'self'; style-src 'self'; upgrade-insecure-requests
   Cross-Origin-Opener-Policy: same-origin
   Permissions-Policy: camera=(), geolocation=(), microphone=(), payment=(), usb=()
   Referrer-Policy: strict-origin-when-cross-origin
@@ -17,6 +17,9 @@
   Cache-Control: public, max-age=0, must-revalidate
 
 /assets/simulation.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/eva-support.js
   Cache-Control: public, max-age=0, must-revalidate
 
 /assets/fonts/*

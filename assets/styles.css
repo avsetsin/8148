@@ -377,6 +377,19 @@ details.qa .qa-a .src { margin-top: 0.5rem; }
 .voice-body .voice-source { margin-top: 1rem; }
 .voices-note { margin-top: 1.5rem; color: var(--muted); font-size: 0.875rem; }
 
+.eva-support { margin-bottom: 1.5rem; padding: 1.75rem 2rem; border: 1px solid var(--line); border-radius: 22px 9px 26px 11px / 11px 26px 9px 22px; background: var(--band); }
+.eva-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 1.5rem; margin-bottom: 1.75rem; }
+.eva-heading h3 { font-family: var(--text); font-size: 1.0625rem; line-height: 1.4; }
+.eva-source { color: var(--body); font-size: 0.8125rem; }
+.eva-metrics { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 1.5rem 3rem; margin-bottom: 1.5rem; }
+.eva-metrics > div { display: flex; min-width: 0; flex-direction: column; gap: 0.5rem; }
+.eva-metrics dt { max-width: 22ch; color: var(--body); font-size: 0.875rem; line-height: 1.5; }
+.eva-metrics dd { order: -1; color: var(--accent-dark); font-family: var(--head); font-size: 3rem; line-height: 1.1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.eva-participation { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+.eva-breakdown { color: var(--body); font-size: 0.875rem; }
+.eva-meta { margin-top: 0.5rem; color: var(--muted); font-size: 0.75rem; }
+.eva-meta time { white-space: nowrap; }
+
 .support .card { border: 1.5px solid var(--ink); }
 .support .card .btn { align-self: flex-start; margin-top: auto; }
 .support .aud { color: var(--muted); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; }
@@ -445,6 +458,7 @@ details.qa:nth-of-type(3n) { border-radius: 25px 11px 9px 26px / 13px 25px 22px 
 @media (max-width: 47.9375rem) {
   .voice-ranking, .voice { grid-template-columns: 1fr; gap: 1.25rem; }
   .voice-ranking { padding: 1.5rem; }
+  .eva-support { padding: 1.5rem; }
   .voice { padding-block: 2rem; }
   .problem-options { grid-template-columns: 1fr; gap: 2rem; }
   .option-heading h3 { min-height: 0; }
@@ -507,6 +521,7 @@ details.qa:nth-of-type(3n) { border-radius: 25px 11px 9px 26px / 13px 25px 22px 
   #status .srow { grid-template-columns: 1fr; gap: 0.375rem; }
   .voices .sechead, .support .sechead { margin-bottom: 2rem; }
   .voices .sechead .dek { font-size: 1rem; }
+  .eva-metrics > div { flex-basis: 100%; }
 }
 
 @media (max-width: 25rem) {
