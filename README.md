@@ -34,6 +34,20 @@ The canonical URL, Open Graph metadata, `robots.txt`, and `sitemap.xml` currentl
 
 When the proposal status changes, review the status section, visible update dates, and `sitemap.xml` in the same commit. When replacing social images, keep them at 1200×630 and 1080×1080 and verify the absolute metadata URLs. Preserve explicit image dimensions and test keyboard navigation, reduced-motion behavior, and the 320–1440 px responsive range before publishing.
 
+## Public quotations
+
+Add verified public comments to the `#voices` list using the existing `.voice` figure, a stable permalink, a compact author byline, and a dated source link. Preserve the original words, punctuation, capitalization, and spelling. Choose complete arguments without shortening them to fit a character limit, and keep editorial text outside the blockquote. Forum excerpts retain their CC BY-NC-SA 3.0 attribution in the footer.
+
+The Blockdaemon entry uses the opening of its [15 September 2026 comment](https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669/13), checked on 16 September: explicit support followed by institutional clients’ demand for predictable, automatic rewards. The excerpt is contiguous and ends after “automatic stream.” Line-wrapped fragments are joined into two paragraphs; the words and punctuation are unchanged.
+
+All six displayed excerpts were checked against their sources on 16 September 2026. The five forum excerpts match contiguous source text, allowing only HTML whitespace and paragraph layout to differ. P2P.org’s excerpt matches the [corrected ACDC #179 transcript](https://forkcast.org/artifacts/acdc/2026-05-28_179/transcript_corrected.vtt) except for the opening “As”, capitalized at the page author’s request; preserve this explicit exception.
+
+## Client priorities
+
+The compact `#client-priorities` panel lists consensus-client rankings for EIP-8148 in one row per team. Keep each grade, date, and source attached to its team, and preserve existing per-client permalinks. Teku’s A tier is listed on [Forkcast](https://forkcast.org/upgrade/hegota/client-priority/) with a 10 September 2026 date. Prysm’s A tier comes from its [team rationale](https://hackmd.io/@ttsao/prysm-view-hegota), updated 15 September, which describes its prototype, technical feasibility assessment, and support for inclusion. Both ratings were checked against Forkcast’s current public data on 16 September. Rankings express priorities for Hegotá; they are not a decision to include the EIP.
+
+Lodestar’s C grade was supplied by the page author on 16 September. Its [10 September team post](https://x.com/lodestar_eth/status/2098057158793506959) explicitly defines C as “support with qualifications”. The post and its date were checked, but the complete ranking image required X sign-in, so EIP-8148’s placement was not independently read from that image. Forkcast’s data did not yet include Lodestar when checked.
+
 ## Validator signals
 
 The `#validator-support` panel in Voices of support makes one anonymous GET to [EVA Hub’s EIP-8148 endpoint](https://api.ethva.net/eips/8148) per page load, with a six-second timeout and no cookies or referrer. This is the endpoint used by the public Hub client; no documented external API contract was found. It returned HTTP 200 and permitted CORS from both `https://eip8148.com` and the local preview on 2026-09-15. The production CSP permits connections only to this endpoint. Network errors, timeouts, and malformed responses preserve all six snapshot fields and their original check date. An explicitly unapproved proposal hides the panel.
