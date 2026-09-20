@@ -680,7 +680,7 @@
     <div class="sechead">
       <div class="eyebrow">Operators and the Ethereum community</div>
       <h2 id="voices-title">Voices of support <a class="voice-permalink" href="#voices" aria-label="Link to Voices of support"><span aria-hidden="true">#</span></a></h2>
-      <p class="dek">Node operators are backing EIP-8148 for a practical reason: consolidate validators and keep rewards accessible. See validator signals, operator use cases, client priorities, and feedback on the design.</p>
+      <p class="dek">Node operators are backing EIP-8148 for a practical reason: consolidate validators and keep rewards accessible. See validator signals, operator use cases, Hegotá priorities, and feedback on the design.</p>
     </div>
 
     <section class="eva-support" id="validator-support" data-eva-support aria-labelledby="validator-support-title">
@@ -707,7 +707,7 @@
 
     <section class="voice-rankings" id="client-priorities" aria-labelledby="client-priorities-title">
       <div class="voice-rankings-heading">
-        <h3 id="client-priorities-title">Hegotá client priorities <a class="voice-permalink" href="#client-priorities" aria-label="Link to Hegotá client priorities"><span aria-hidden="true">#</span></a></h3>
+        <h3 id="client-priorities-title">Hegotá priorities <a class="voice-permalink" href="#client-priorities" aria-label="Link to Hegotá priorities"><span aria-hidden="true">#</span></a></h3>
         <p>For EIP-8148</p>
       </div>
       <div class="voice-ranking-list">
@@ -731,20 +731,48 @@
             <time datetime="2026-09-15">15 Sep 2026</time>
           </div>
         </article>
-        <article class="voice-ranking" id="voice-lodestar" aria-labelledby="voice-lodestar-title">
+        <article class="voice-ranking" id="voice-lido" aria-labelledby="voice-lido-title">
           <div class="voice-ranking-top">
-            <h4 id="voice-lodestar-title">Lodestar <a class="voice-permalink" href="#voice-lodestar" aria-label="Link to Lodestar’s ranking"><span aria-hidden="true">#</span></a></h4>
+            <h4 id="voice-lido-title">Lido <a class="voice-permalink" href="#voice-lido" aria-label="Link to Lido contributors’ ranking"><span aria-hidden="true">#</span></a></h4>
+            <p class="voice-tier"><span class="voice-grade">A</span><span>tier</span></p>
+          </div>
+          <div class="voice-source">
+            <a href="https://ethereum-magicians.org/t/eip-8081-hegota-network-upgrade-meta-thread/26876/16" aria-label="Read Lido contributors’ Hegotá ranking and rationale for EIP-8148">Contributors’ ranking <span aria-hidden="true">↗</span></a>
+            <time datetime="2026-09-16">16 Sep 2026</time>
+          </div>
+        </article>
+        <article class="voice-ranking" id="voice-nimbus" aria-labelledby="voice-nimbus-title">
+          <div class="voice-ranking-top">
+            <h4 id="voice-nimbus-title">Nimbus <a class="voice-permalink" href="#voice-nimbus" aria-label="Link to Nimbus’ ranking"><span aria-hidden="true">#</span></a></h4>
             <p class="voice-tier"><span class="voice-grade">C</span><span>tier</span></p>
           </div>
           <div class="voice-source">
-            <a href="https://x.com/lodestar_eth/status/2098057158793506959" aria-label="Read Lodestar’s Hegotá client-priority ranking">Team’s ranking <span aria-hidden="true">↗</span></a>
-            <time datetime="2026-09-10">10 Sep 2026</time>
+            <a href="https://github.com/ethereum/pm/issues/2222#issuecomment-5700405295" aria-label="Read Nimbus’ Hegotá ranking for EIP-8148">Team’s ranking <span aria-hidden="true">↗</span></a>
+            <time datetime="2026-09-16">16 Sep 2026</time>
           </div>
         </article>
       </div>
     </section>
 
     <div class="voice-list">
+      <figure class="voice" id="voice-rocket-pool">
+        <figcaption class="voice-author">
+          <p class="voice-name">Rocket Pool <a class="voice-permalink" href="#voice-rocket-pool" aria-label="Link to Rocket Pool’s comment"><span aria-hidden="true">#</span></a></p>
+          <p>Langers · Core team</p>
+        </figcaption>
+        <div class="voice-body">
+          <blockquote cite="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669/14">
+            <span class="voice-quote-mark" aria-hidden="true">“</span>
+            <p>The Rocket Pool core team support this EIP.</p>
+            <p>We still have a lot of design work to confirm but we believe this EIP will support our migration to 0x02 validators.</p>
+          </blockquote>
+          <div class="voice-source">
+            <a href="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669/14" aria-label="Read Langers’ comment for Rocket Pool on Ethereum Magicians">Ethereum Magicians <span aria-hidden="true">↗</span></a>
+            <time datetime="2026-09-17">17 Sep 2026</time>
+          </div>
+        </div>
+      </figure>
+
       <figure class="voice" id="voice-blockdaemon">
         <figcaption class="voice-author">
           <p class="voice-name">Blockdaemon <a class="voice-permalink" href="#voice-blockdaemon" aria-label="Link to Blockdaemon’s comment"><span aria-hidden="true">#</span></a></p>
@@ -783,10 +811,28 @@
           <p>Amir · Node operator</p>
         </figcaption>
         <div class="voice-body">
-          <blockquote cite="https://www.youtube.com/watch?v=6rx9Vo7QcJg&amp;t=2993s"><span class="voice-quote-mark" aria-hidden="true">“</span><p>As a node operator, we do not have the access to withdrawal address, so we cannot initiate partial withdrawals on behalf of our clients</p></blockquote>
+          <blockquote cite="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669/16"><span class="voice-quote-mark" aria-hidden="true">“</span><p>The net effect today is that the network does not get the consolidation. Stake that would happily run at 512 or 1024 ETH per validator stays at 32, because reward delivery matters more to the client than validator count does.</p></blockquote>
           <div class="voice-source">
-            <a href="https://www.youtube.com/watch?v=6rx9Vo7QcJg&amp;t=2993s" aria-label="Watch Amir explain P2P.org’s support for EIP-8148 on ACDC 179">Support on ACDC #179 <span aria-hidden="true">↗</span></a>
-            <time datetime="2026-05-28">28 May 2026</time>
+            <a href="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669/16" aria-label="Read Amir’s comment for P2P.org on Ethereum Magicians">Ethereum Magicians <span aria-hidden="true">↗</span></a>
+            <time datetime="2026-09-17">17 Sep 2026</time>
+          </div>
+        </div>
+      </figure>
+
+      <figure class="voice" id="voice-launchnodes">
+        <figcaption class="voice-author">
+          <p class="voice-name">Launchnodes <a class="voice-permalink" href="#voice-launchnodes" aria-label="Link to Launchnodes’ comment"><span aria-hidden="true">#</span></a></p>
+          <p>Yash · Node operator</p>
+        </figcaption>
+        <div class="voice-body">
+          <blockquote cite="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669/15">
+            <span class="voice-quote-mark" aria-hidden="true">“</span>
+            <p>We think operators and stakers should have the flexibility to determine how much ETH they want to maintain within a consolidated validator.</p>
+            <p>A configurable sweep threshold provides exactly that flexibility. Operators could benefit from consolidation while selecting a threshold that better reflects their operational, liquidity and risk requirements, rather than having 2048 ETH as the only automatic sweep point.</p>
+          </blockquote>
+          <div class="voice-source">
+            <a href="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669/15" aria-label="Read Yash’s comment for Launchnodes on Ethereum Magicians">Ethereum Magicians <span aria-hidden="true">↗</span></a>
+            <time datetime="2026-09-17">17 Sep 2026</time>
           </div>
         </div>
       </figure>
@@ -881,7 +927,7 @@
       <a href="#status">Implementation status</a>
       <a href="#voices">Voices of support</a>
     </div>
-    <div class="stamp">EIP-8148 · A page by the proposal’s authors · Updated <time datetime="2026-09-16">16 Sep 2026</time></div>
+    <div class="stamp">EIP-8148 · A page by the proposal’s authors · Updated <time datetime="2026-09-20">20 Sep 2026</time></div>
     <p class="quote-credits">Forum excerpts from <a href="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669">EIP-8148: Custom sweep threshold for validators</a>, by the authors credited above, are shared under <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a>.</p>
   </div>
 </footer>
