@@ -34,7 +34,7 @@
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=20260916-green-transparent">
 <link rel="preload" href="assets/fonts/bricolage-grotesque-latin-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/schibsted-grotesk-latin-400-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/styles.css?v=20260916-client-priority-rows">
+<link rel="stylesheet" href="assets/styles.css?v=20261116-compact-voices">
 <script src="assets/simulation.js?v=20260910-feedback10" defer></script>
 <script src="assets/eva-support.js?v=20260915" defer></script>
 </head>
@@ -68,7 +68,7 @@
 <header class="hero" id="top">
   <div class="wrap">
     <div class="hero-copy">
-      <div class="eyebrow hero-eyebrow">EIP-8148 · Proposed for Hegotá</div>
+      <div class="eyebrow hero-eyebrow">EIP-8148 · CFI for Hegotá</div>
       <h1>Custom sweep threshold for validators</h1>
       <div class="dek">
         <p>Set how much ETH stays in your validator. Let rewards add to your stake up to that amount. Receive the excess automatically.</p>
@@ -133,7 +133,7 @@
 <div class="strip">
   <div class="wrap">
     <div class="cell"><a href="https://eips.ethereum.org/EIPS/eip-8148#motivation">Why this proposal matters ↗</a><div>The problem EIP-8148 addresses</div></div>
-    <div class="cell"><a href="https://eips.ethereum.org/EIPS/eip-8081">Follow the Hegotá roadmap ↗</a><div>Proposals under consideration</div></div>
+    <div class="cell"><a href="https://forkcast.org/calls/acdc/190/">Follow the Hegotá decision ↗</a><div>Considered for Inclusion · 29 Oct 2026</div></div>
     <div class="cell"><a href="https://github.com/ethereum/consensus-specs/blob/master/specs/_features/eip8148/beacon-chain.md#introduction">Explore the client changes ↗</a><div>Beacon-chain specification</div></div>
     <div class="cell"><a href="https://github.com/ethereum/sys-asm/pull/54">Review the system contract ↗</a><div>Execution-layer implementation</div></div>
   </div>
@@ -571,7 +571,7 @@
         <div class="impl-additions">
           <h4>New in EIP-8148</h4>
           <ul class="rules">
-            <li>Store thresholds in a separate list in the beacon state. Keep the <code>Validator</code> container unchanged.</li>
+            <li>Encode the threshold in bytes 1–2 of 0x02 withdrawal credentials. The latest EIP adds no field to <code>BeaconState</code> or <code>Validator</code>.</li>
             <li>Process the new requests. Validate the withdrawal address, validator status, and threshold.</li>
             <li>Use each validator’s threshold in the current sweep and effective balance updates.</li>
             <li>Initialize defaults at the fork and on a switch to 0x02. Read custom thresholds from new validator deposits.</li>
@@ -579,27 +579,27 @@
         </div>
       </div>
     </div>
-    <p class="src source-note-wide">Implementing EIP-8148 in a client? Start with the <a href="https://eips.ethereum.org/EIPS/eip-8148#specification">protocol specification</a>, follow the <a href="https://github.com/ethereum/consensus-specs/blob/master/specs/_features/eip8148/beacon-chain.md#introduction">beacon-chain changes</a>, and review the <a href="https://github.com/ethereum/sys-asm/pull/54">system contract implementation</a>.</p>
+    <p class="src source-note-wide">Start with the <a href="https://eips.ethereum.org/EIPS/eip-8148#specification">latest EIP</a> and review the <a href="https://github.com/ethereum/sys-asm/pull/54">system contract implementation</a>. The <a href="https://github.com/ethereum/consensus-specs/blob/master/specs/_features/eip8148/beacon-chain.md#introduction">beacon-chain reference</a> is work in progress: it still uses a separate threshold list and needs alignment with the EIP’s credentials encoding.</p>
   </div>
 </section>
 
 <section class="alt" id="status">
   <div class="wrap">
     <div class="sechead">
-      <div class="eyebrow">Status · <time datetime="2026-09-09">9 Sep 2026</time></div>
+      <div class="eyebrow">Status · <time datetime="2026-11-16">16 Nov 2026</time></div>
       <h2>Progress toward Hegotá</h2>
-      <p class="dek">EIP-8148 is proposed for Hegotá. The specification, system contract, and Prysm proof of concept are available for review.</p>
+      <p class="dek">EIP-8148 is Considered for Inclusion (CFI) in Hegotá following ACDC #190 on 29 October. Client testing and specification work continue; inclusion is not yet scheduled.</p>
     </div>
     <dl class="status-list">
       <div class="srow"><dt class="k"><a href="https://eips.ethereum.org/EIPS/eip-8148">EIP-8148 proposal</a></dt><dd class="v done"><span class="dot" aria-hidden="true"></span>Published · Draft</dd></div>
-      <div class="srow"><dt class="k"><a href="https://eips.ethereum.org/EIPS/eip-8081">Hegotá proposal</a></dt><dd class="v done"><span class="dot" aria-hidden="true"></span>Proposed for Inclusion</dd></div>
-      <div class="srow"><dt class="k"><a href="https://github.com/ethereum/consensus-specs/tree/master/specs/_features/eip8148">Consensus specification</a></dt><dd class="v done"><span class="dot" aria-hidden="true"></span>Published in consensus-specs</dd></div>
+      <div class="srow"><dt class="k"><a href="https://forkcast.org/calls/acdc/190/">Hegotá decision · ACDC #190</a></dt><dd class="v done"><span class="dot" aria-hidden="true"></span>Considered for Inclusion (CFI)<span class="remaining">29 Oct 2026</span></dd></div>
+      <div class="srow"><dt class="k"><a href="https://github.com/ethereum/consensus-specs/pull/5790">Consensus specification</a></dt><dd class="v done"><span class="dot" aria-hidden="true"></span>Work in progress<span class="remaining">Credentials update · PR #5790 open</span></dd></div>
       <div class="srow"><dt class="k"><a href="https://github.com/ethereum/sys-asm/pull/54">System contract implementation</a></dt><dd class="v done"><span class="dot" aria-hidden="true"></span>PR #54 available for review</dd></div>
-      <div class="srow"><dt class="k">Client implementations</dt><dd class="v done"><span class="dot" aria-hidden="true"></span><a href="https://github.com/OffchainLabs/prysm/pull/17338">Prysm proof of concept</a><span class="remaining">Other clients pending</span></dd></div>
+      <div class="srow"><dt class="k">Proofs of concept</dt><dd class="v done"><span class="dot" aria-hidden="true"></span><a href="https://github.com/OffchainLabs/prysm/pull/17338">Prysm</a> · <a href="https://github.com/nalepae/go-ethereum/pull/1">Geth</a> · <a href="https://github.com/nalepae/dora/pull/1">Dora explorer</a><span class="remaining">Open PRs · prototype implementations</span></dd></div>
       <div class="srow todo"><dt class="k">System contract audit</dt><dd class="v"><span class="dot" aria-hidden="true"></span>Pending</dd></div>
-      <div class="srow todo"><dt class="k">Devnets</dt><dd class="v"><span class="dot" aria-hidden="true"></span>Pending</dd></div>
+      <div class="srow todo"><dt class="k">Multi-client devnets</dt><dd class="v"><span class="dot" aria-hidden="true"></span>Testing pending</dd></div>
     </dl>
-    <p class="status-next"><strong>Next steps:</strong> other client implementations, devnets, the system contract audit, and a decision on Hegotá inclusion.</p>
+    <p class="status-next"><strong>Next steps:</strong> align the specifications, update client implementations, test on devnets, complete the system contract audit, and decide on scheduling for Hegotá.</p>
   </div>
 </section>
 
@@ -654,18 +654,18 @@
       </details>
       <details class="qa">
         <summary>How do I read the threshold?</summary>
-        <div class="qa-a" id="confirm-threshold"><p>Read the validator’s entry in <a href="https://github.com/ethereum/consensus-specs/blob/master/specs/_features/eip8148/beacon-chain.md#beaconstate"><code>validator_sweep_thresholds</code> in the beacon state</a>. Make sure that it contains the value you set.</p><p>The transaction receipt shows the result of the contract call. The beacon state shows the threshold after request processing.</p></div>
+        <div class="qa-a" id="confirm-threshold"><p>Under the latest EIP, read bytes 1–2 of the validator’s 0x02 withdrawal credentials as a little-endian integer in ETH. Zero means the 2,048 ETH default.</p><p>Check the credentials after consensus processing. A transaction receipt alone does not confirm that the threshold changed.</p><div class="src">See the <a href="https://eips.ethereum.org/EIPS/eip-8148#consensus-layer">current credentials encoding</a>. The beacon-chain reference is still being aligned with this design.</div></div>
       </details>
       <h3 class="faq-group">Client implementation</h3>
       <details class="qa">
         <summary>Which deposits can set a threshold?</summary>
         <div class="qa-a"><p>The fork sets defaults for registered validators. It does not read a threshold from their credentials.</p><p>For a new validator, the first deposit contains the credentials. A zero threshold or a value outside 32–2,048 ETH gives the 2,048 ETH default. Top-up deposits do not replace these credentials or change the threshold.</p>
-        <div class="src">See how <a href="https://github.com/ethereum/consensus-specs/blob/master/specs/_features/eip8148/beacon-chain.md#new-get_initial_sweep_threshold">new deposits encode and validate an initial threshold</a>, and <a href="https://eips.ethereum.org/EIPS/eip-8148#backwards-compatibility">which defaults protect existing deposits</a>.</div></div>
+        <div class="src">See the <a href="https://eips.ethereum.org/EIPS/eip-8148#consensus-layer">latest deposit encoding</a> and <a href="https://eips.ethereum.org/EIPS/eip-8148#backwards-compatibility">defaults for existing validators and deposits</a>.</div></div>
       </details>
       <details class="qa">
-        <summary>Why are thresholds outside the Validator container?</summary>
-        <div class="qa-a"><p>The list keeps thresholds outside the <code>Validator</code> container. It uses the validator index, as the balance list does.</p><p>Each threshold is a <code>uint64</code> value in Gwei: eight bytes before list and database overhead. The withdrawal sweep and effective balance updates read this value.</p>
-        <div class="src">Read why EIP-8148 <a href="https://eips.ethereum.org/EIPS/eip-8148#validator_sweep_thresholds-mapping-in-beaconstate">keeps threshold data outside the Validator container</a>, or inspect the corresponding <a href="https://github.com/ethereum/consensus-specs/blob/master/specs/_features/eip8148/beacon-chain.md#beaconstate">BeaconState field</a>.</div></div>
+        <summary>Where is the threshold stored?</summary>
+        <div class="qa-a"><p>The latest EIP uses two unused bytes of 0x02 withdrawal credentials. The prefix and withdrawal address stay the same.</p><p>Tools that compare all 32 bytes must account for threshold changes. Proof verifiers should compare the prefix and execution address.</p>
+        <div class="src">Read the <a href="https://eips.ethereum.org/EIPS/eip-8148#storing-the-threshold-in-withdrawal-credentials">storage rationale</a> and <a href="https://eips.ethereum.org/EIPS/eip-8148#usage-of-the-previously-unused-bytes-in-compounding-withdrawal-credentials">compatibility guidance</a>.</div></div>
       </details>
       <details class="qa">
         <summary>Why does the maximum effective balance stay at 2,048 ETH?</summary>
@@ -691,7 +691,7 @@
       <dl class="eva-metrics" aria-live="polite" aria-atomic="true">
         <div>
           <dt>ETH in support</dt>
-          <dd data-eva-eth>49,330</dd>
+          <dd data-eva-eth>50,220</dd>
         </div>
         <div>
           <dt>of participating stake in support</dt>
@@ -699,10 +699,10 @@
         </div>
       </dl>
       <div class="eva-participation">
-        <p class="eva-breakdown"><span data-eva-signals>9</span> signals · <span data-eva-breakdown>9 yes · 0 no · 0 abstain</span></p>
-        <p class="eva-breakdown"><span data-eva-total>49,330</span> ETH represented</p>
+        <p class="eva-breakdown"><span data-eva-signals>11</span> signals · <span data-eva-breakdown>11 yes · 0 no · 0 abstain</span></p>
+        <p class="eva-breakdown"><span data-eva-total>50,220</span> ETH represented</p>
       </div>
-      <p class="eva-meta">Checked <time data-eva-checked datetime="2026-09-15T19:27:31Z">15 Sep 2026, 19:27 UTC</time> · <a href="https://hub.ethva.net/methodology">Methodology <span aria-hidden="true">↗</span></a></p>
+      <p class="eva-meta">Checked <time data-eva-checked datetime="2026-11-16T09:16:37Z">16 Nov 2026, 09:16 UTC</time> · <a href="https://hub.ethva.net/methodology">Methodology <span aria-hidden="true">↗</span></a></p>
     </section>
 
     <section class="voice-rankings" id="client-priorities" aria-labelledby="client-priorities-title">
@@ -755,6 +755,59 @@
     </section>
 
     <div class="voice-list">
+      <figure class="voice" id="voice-quat-capital">
+        <figcaption class="voice-author">
+          <p class="voice-name">Quat Capital <a class="voice-permalink" href="#voice-quat-capital" aria-label="Link to Quat Capital’s comment"><span aria-hidden="true">#</span></a></p>
+          <p>2xStake · Independent node operator</p>
+        </figcaption>
+        <div class="voice-body">
+          <blockquote cite="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669/23">
+            <span class="voice-quote-mark" aria-hidden="true">“</span>
+            <p>Underrepresented regions. Small operators outside the main hubs can’t build the automation large operators use for partial withdrawals. EIP-8148 makes 0x02 and consolidation practical for operators like us, which helps decentralize the validator set geographically.</p>
+          </blockquote>
+          <div class="voice-source">
+            <a href="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669/23" aria-label="Read 2xStake’s comment for Quat Capital on Ethereum Magicians">Ethereum Magicians <span aria-hidden="true">↗</span></a>
+            <time datetime="2026-10-16">16 Oct 2026</time>
+          </div>
+        </div>
+      </figure>
+
+      <figure class="voice" id="voice-mixbytes">
+        <figcaption class="voice-author">
+          <p class="voice-name">MixBytes <a class="voice-permalink" href="#voice-mixbytes" aria-label="Link to MixBytes’ comment"><span aria-hidden="true">#</span></a></p>
+          <p>Pavel · plmorozov</p>
+        </figcaption>
+        <div class="voice-body">
+          <blockquote cite="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669/22">
+            <span class="voice-quote-mark" aria-hidden="true">“</span>
+            <p>MixBytes here! We support this EIP.</p>
+            <p>The fixed 2048 ETH threshold means every product that needs regular payouts builds its own machinery around it. A configurable sweep threshold at the base layer, riding the existing EIP-7002 request machinery with default behavior untouched, solves it.</p>
+          </blockquote>
+          <div class="voice-source">
+            <a href="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669/22" aria-label="Read Pavel’s comment for MixBytes on Ethereum Magicians">Ethereum Magicians <span aria-hidden="true">↗</span></a>
+            <time datetime="2026-10-14">14 Oct 2026</time>
+          </div>
+        </div>
+      </figure>
+
+      <figure class="voice" id="voice-everstake">
+        <figcaption class="voice-author">
+          <p class="voice-name">Everstake <a class="voice-permalink" href="#voice-everstake" aria-label="Link to Everstake’s comment"><span aria-hidden="true">#</span></a></p>
+          <p>Iryna · Node operator</p>
+        </figcaption>
+        <div class="voice-body">
+          <blockquote cite="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669/19">
+            <span class="voice-quote-mark" aria-hidden="true">“</span>
+            <p>Everstake supports EIP-8148. From a node operator perspective, configurable sweep thresholds would make the transition to 0x02 validators significantly more practical, allowing operators to benefit from validator consolidation while maintaining predictable reward flows and greater operational flexibility.</p>
+            <p>We believe this is a valuable improvement for Ethereum staking infrastructure and support its consideration for Hegota.</p>
+          </blockquote>
+          <div class="voice-source">
+            <a href="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669/19" aria-label="Read Iryna’s comment for Everstake on Ethereum Magicians">Ethereum Magicians <span aria-hidden="true">↗</span></a>
+            <time datetime="2026-09-24">24 Sep 2026</time>
+          </div>
+        </div>
+      </figure>
+
       <figure class="voice" id="voice-rocket-pool">
         <figcaption class="voice-author">
           <p class="voice-name">Rocket Pool <a class="voice-permalink" href="#voice-rocket-pool" aria-label="Link to Rocket Pool’s comment"><span aria-hidden="true">#</span></a></p>
@@ -837,6 +890,24 @@
         </div>
       </figure>
 
+      <figure class="voice" id="voice-mitsuhitokawada">
+        <figcaption class="voice-author">
+          <p class="voice-name">mitsuhitokawada <a class="voice-permalink" href="#voice-mitsuhitokawada" aria-label="Link to mitsuhitokawada’s comment"><span aria-hidden="true">#</span></a></p>
+          <p>CSM node operator</p>
+        </figcaption>
+        <div class="voice-body">
+          <blockquote cite="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669/21">
+            <span class="voice-quote-mark" aria-hidden="true">“</span>
+            <p>I’m a Lido CSM node operator, and I run a 0x02 (compounding) validator on Hoodi alongside my mainnet operation. I’d like to voice my support for EIP-8148.</p>
+            <p>With the default 2,048 ETH threshold, a 0x02 validator holding a smaller balance has no practical way to receive its rewards other than manual partial withdrawals, which means extra operational steps and queue uncertainty. A per-validator sweep threshold lets operators and stakers choose how much stays compounding and have the rest swept automatically. It’s optional and doesn’t change existing deposit, withdrawal or exit behavior, so the downside looks small.</p>
+          </blockquote>
+          <div class="voice-source">
+            <a href="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669/21" aria-label="Read mitsuhitokawada’s comment on Ethereum Magicians">Ethereum Magicians <span aria-hidden="true">↗</span></a>
+            <time datetime="2026-10-12">12 Oct 2026</time>
+          </div>
+        </div>
+      </figure>
+
       <figure class="voice" id="voice-teee">
         <figcaption class="voice-author">
           <p class="voice-name">teee <a class="voice-permalink" href="#voice-teee" aria-label="Link to teee’s comment"><span aria-hidden="true">#</span></a></p>
@@ -883,7 +954,7 @@
         </div>
       </figure>
     </div>
-    <p class="voices-note">EIP-8148 is <a href="https://eips.ethereum.org/EIPS/eip-8081#proposed-for-inclusion">Proposed for Inclusion in Hegotá</a>. The final scope is still under discussion.</p>
+    <p class="voices-note">EIP-8148 is <a href="https://forkcast.org/calls/acdc/190/">Considered for Inclusion in Hegotá</a>. The final scope is still under discussion. Validator signals are non-binding and represent participating stake.</p>
   </div>
 </section>
 
@@ -892,14 +963,14 @@
     <div class="sechead">
       <div class="eyebrow">Support the proposal</div>
       <h2>Support <span>EIP-8148</span> for Hegotá</h2>
-      <p class="dek">Help client teams review the proposal for Hegotá. Rank it, describe how your validators would use it, or comment on the specification.</p>
+      <p class="dek">Help move EIP-8148 from consideration toward implementation. Review the client changes, describe how your validators would use it, or comment on the specification.</p>
     </div>
     <div class="row">
       <div class="card">
-        <div class="aud">Client teams and community</div>
-        <h3>Rank the proposal</h3>
-        <p>Compare EIP-8148 with the other Hegotá proposals. Explain your ranking on Forkcast.</p>
-        <a class="btn btn-primary" href="https://forkcast.org/rank/">Rank on Forkcast</a>
+        <div class="aud">Client developers</div>
+        <h3>Review the implementation</h3>
+        <p>Compare the latest EIP with the client prototypes. Help align the specifications and identify test cases.</p>
+        <a class="btn btn-primary" href="#implementation">Explore client changes</a>
       </div>
       <div class="card">
         <div class="aud">Validators</div>
@@ -927,7 +998,7 @@
       <a href="#status">Implementation status</a>
       <a href="#voices">Voices of support</a>
     </div>
-    <div class="stamp">EIP-8148 · A page by the proposal’s authors · Updated <time datetime="2026-09-20">20 Sep 2026</time></div>
+    <div class="stamp">EIP-8148 · A page by the proposal’s authors · Updated <time datetime="2026-11-16">16 Nov 2026</time></div>
     <p class="quote-credits">Forum excerpts from <a href="https://ethereum-magicians.org/t/eip-8148-custom-sweep-threshold-for-validators/27669">EIP-8148: Custom sweep threshold for validators</a>, by the authors credited above, are shared under <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a>.</p>
   </div>
 </footer>

@@ -370,16 +370,16 @@ details.qa .qa-a .src { margin-top: 0.5rem; }
 .voice-grade { font-family: var(--hand); font-size: 2rem; font-weight: 500; line-height: 1; transform: rotate(-5deg); }
 .voice-ranking .voice-source { justify-content: flex-end; gap: 0.25rem 0.75rem; }
 .voice-list { margin-top: 1.25rem; }
-.voice { padding-block: 2.25rem; border-bottom: 1px solid var(--line); }
+.voice { padding-block: 1.75rem; border-bottom: 1px solid var(--line); }
 .voice-body { min-width: 0; padding-left: 1.75rem; }
-.voice blockquote { position: relative; color: var(--ink); font-size: clamp(1.125rem, 1.75vw, 1.375rem); font-weight: 500; line-height: 1.6; letter-spacing: -0.01em; }
+.voice blockquote { position: relative; color: var(--ink); font-size: clamp(1rem, 1.35vw, 1.125rem); font-weight: 500; line-height: 1.6; letter-spacing: -0.01em; }
 .voice blockquote p { text-wrap: pretty; }
-.voice blockquote p + p { margin-top: 1rem; }
-.voice-quote-mark { position: absolute; top: -0.125rem; left: -1.75rem; color: #b8b4e4; font-family: var(--head); font-size: 2.75rem; line-height: 1; }
+.voice blockquote p + p { margin-top: 0.75rem; }
+.voice-quote-mark { position: absolute; top: -0.125rem; left: -1.75rem; color: #b8b4e4; font-family: var(--head); font-size: 2.25rem; line-height: 1; }
 .voice-source { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1.25rem; color: var(--muted); font-size: 0.75rem; line-height: 1.6; }
 .voice-source a { color: var(--body); }
 .voice-source time { white-space: nowrap; }
-.voice-body .voice-source { margin-top: 1rem; }
+.voice-body .voice-source { margin-top: 0.75rem; }
 .voices-note { margin-top: 1.5rem; color: var(--muted); font-size: 0.875rem; }
 
 .eva-support { margin-bottom: 1.5rem; padding: 1.75rem 2rem; border: 1px solid var(--line); border-radius: 22px 9px 26px 11px / 11px 26px 9px 22px; background: var(--band); }
@@ -467,7 +467,7 @@ details.qa:nth-of-type(3n) { border-radius: 25px 11px 9px 26px / 13px 25px 22px 
   .voice-ranking-top { grid-template-columns: minmax(0, 1fr) auto; }
   .voice-ranking .voice-source { justify-content: flex-start; }
   .eva-support { padding: 1.5rem; }
-  .voice { padding-block: 2rem; }
+  .voice { padding-block: 1.5rem; }
   .problem-options { grid-template-columns: 1fr; gap: 2rem; }
   .option-heading h3 { min-height: 0; }
   .solution-flow .topic { grid-template-columns: 1fr; gap: 1.25rem; padding-block: 2rem; }
